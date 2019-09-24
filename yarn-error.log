@@ -1,21 +1,21 @@
 Arguments: 
-  /usr/local/bin/node /usr/share/yarn/bin/yarn.js add react-navigation
+  /home/daniel/.config/versions/node/v12.10.0/bin/node /usr/share/yarn/bin/yarn.js add react-navigation
 
 PATH: 
-  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+  /home/daniel/.config/versions/node/v12.10.0/bin:/home/daniel/anaconda3/bin:/home/daniel/anaconda3/condabin:/usr/games:/home/daniel/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
   1.15.2
 
 Node version: 
-  11.13.0
+  12.10.0
 
 Platform: 
   linux x64
 
 Trace: 
-  Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com registry.yarnpkg.com:443
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:58:26)
+  Error: getaddrinfo EAI_AGAIN registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:60:26)
 
 npm manifest: 
   {

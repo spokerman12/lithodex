@@ -12,6 +12,7 @@ export default class MainMenu extends Component {
 				/>
 				<View style={styles.row}>
 					<View style={styles.menu_item}>
+	
 						<Image 
 							style={{width: 100, height: 100}}
 							source={require('../assets/new_column_icon.png')}

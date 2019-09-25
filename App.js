@@ -4,11 +4,20 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
+import MainMenu  from './screens/MainMenu'
+import NewColumn from './screens/NewColumn'
+import NewCore from './screens/NewCore'
+import ColumnGallery  from './screens/ColumnGallery'
+import CoreGallery  from './screens/CoreGallery'
+import Settings from './screens/Settings'
+import AboutLithoDex  from './screens/AboutLithoDex'
 
-import MainMenu from './screens/MainMenu'
 
 // Instalar todo con yarn
 // excepto react-navigation (npm)
+
+// Asegura que Android y Computador esten en
+// la misma senal wifi
 
 function App() {
   return (
@@ -18,9 +27,57 @@ function App() {
   );
 }
 
+// App envuelta con React-Navigator
 const AppNavigator = createStackNavigator({
-  MainMenu: {screen: MainMenu},
-  // NewColumn: {screen: NewColumn},
+  MainMenu: {
+    screen: MainMenu,
+    navigationOptions: {
+      title: 'Menu',
+      backgroundColor: 'transparent',
+    },
+  },
+  NewColumn: {
+    screen: NewColumn,
+    navigationOptions: {
+      title: 'Nueva columna',
+      backgroundColor: 'transparent',
+    },
+  },
+  ColumnGallery: {
+    screen: ColumnGallery,
+    navigationOptions: {
+      title: 'Galería de columnas',
+      backgroundColor: 'transparent',
+    },
+  },
+  NewCore: {
+    screen: NewCore,
+    navigationOptions: {
+      title: 'Nuevo núcleo',
+      backgroundColor: 'transparent',
+    },
+  },
+  CoreGallery: {
+    screen: CoreGallery,
+    navigationOptions: {
+      title: 'Galería de núcleos',
+      backgroundColor: 'transparent',
+    },
+  },
+  AboutLithoDex: {
+    screen: AboutLithoDex,
+    navigationOptions: {
+      title: 'Sobre LithoDex',
+      backgroundColor: 'transparent',
+    },
+  },
+  Settings: {
+    screen: Settings,
+    navigationOptions: {
+      title: 'Configuración',
+      backgroundColor: 'transparent',
+    },
+  },
 });
 
 const AppContainer = createAppContainer(AppNavigator);

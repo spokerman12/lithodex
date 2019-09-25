@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
 
 
 export default class MainMenu extends Component {
@@ -11,58 +11,89 @@ export default class MainMenu extends Component {
 					source={require('../assets/icon.png')}
 				/>
 				<View style={styles.row}>
-					<View style={styles.menu_item}>
-	
-						<Image 
-							style={{width: 100, height: 100}}
-							source={require('../assets/new_column_icon.png')}
-						/>
-						<Text style={styles.menu_item_text}>
-							Nueva{"\n"}columna
-						</Text>
-					</View>
-					<View style={styles.menu_item}>
-						<Image 
-							style={{width: 100, height: 100}}
-							source={require('../assets/new_column_icon.png')}
-						/>
-						<Text style={styles.menu_item_text}>
-							Galería{"\n"}de columnas
-						</Text>
-					</View>
+					<TouchableHighlight 
+						onPress={() => this.props.navigation.push('NewColumn')}
+						underlayColor= '#cccc'
+						style={styles.menu_item}>
+							<View>
+								<Image 
+									style={{width: 100, height: 100}}
+									source={require('../assets/new_column_icon.png')}
+								/>
+								<Text style={styles.menu_item_text}>
+									Nueva{"\n"}columna
+								</Text>
+							</View>
+					</TouchableHighlight>
+
+					<TouchableHighlight 
+						onPress={() => this.props.navigation.push('ColumnGallery')}
+						underlayColor= '#cccc'
+						style={styles.menu_item}>
+							<View>
+								<Image 
+									style={{width: 100, height: 100}}
+									source={require('../assets/new_column_icon.png')}
+								/>
+								<Text style={styles.menu_item_text}>
+									Galería{"\n"}de columnas
+								</Text>
+							</View>
+					</TouchableHighlight>
 				</View>
+
 				<View style={styles.row}>
-					<View style={styles.menu_item}>
-						<Image 
-							style={{width: 100, height: 100}}
-							source={require('../assets/new_column_icon.png')}
-						/>
-						<Text style={styles.menu_item_text}>
-							Nuevo{"\n"}núcleo
-						</Text>
-					</View>
-					<View style={styles.menu_item}>
-						<Image 
-							style={{width: 100, height: 100}}
-							source={require('../assets/new_column_icon.png')}
-						/>
-						<Text style={styles.menu_item_text}>
-							Galería{"\n"}de núcleos
-						</Text>
-					</View>
+					<TouchableHighlight 
+						onPress={() => this.props.navigation.push('NewCore')}
+						underlayColor= '#cccc'
+						style={styles.menu_item}>
+							<View>
+								<Image 
+									style={{width: 100, height: 100}}
+									source={require('../assets/new_column_icon.png')}
+								/>
+								<Text style={styles.menu_item_text}>
+									Nuevo{"\n"}núcleo
+								</Text>
+							</View>
+					</TouchableHighlight>
+					
+					<TouchableHighlight 
+						onPress={() => this.props.navigation.push('CoreGallery')}
+						underlayColor= '#cccc'
+						style={styles.menu_item}>
+							<View>
+								<Image 
+									style={{width: 100, height: 100}}
+									source={require('../assets/new_column_icon.png')}
+								/>
+								<Text style={styles.menu_item_text}>
+									Galería{"\n"}de núcleos
+								</Text>
+							</View>
+					</TouchableHighlight>
 				</View>
+
 				<View style={styles.row}>
-					<View style={styles.menu_item}>
+					<TouchableHighlight 
+						onPress={() => this.props.navigation.push('Settings')}
+						underlayColor= '#cccc'
+						style={styles.menu_item}>
 						<Text style={styles.menu_item_text}>
 							Configuración
 						</Text>
-					</View>
-					<View style={styles.menu_item}>
+					</TouchableHighlight>
+					
+					<TouchableHighlight 
+						onPress={() => this.props.navigation.push('AboutLithoDex')}
+						underlayColor= '#cccc'
+						style={styles.menu_item}>
 						<Text style={styles.menu_item_text}>
 							Sobre LithoDex
 						</Text>
-					</View>
+					</TouchableHighlight>
 				</View>
+
 			</View>
 		);
 	}
@@ -89,6 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     width: '100%',
+    paddingTop:20,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -99,7 +131,6 @@ const styles = StyleSheet.create({
     borderRadius:10,
     marginRight:40,
     marginLeft:40,
-    marginTop:10,
     paddingTop:5,
     paddingBottom:5,
     width:101,

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
+
 import MainMenu  from './screens/MainMenu'
 import NewColumn from './screens/NewColumn'
 import NewCore from './screens/NewCore'
@@ -16,16 +17,22 @@ import AboutLithoDex  from './screens/AboutLithoDex'
 // Instalar todo con yarn
 // excepto react-navigation (npm)
 
+// Este proyecto se desarrolló con Expo
 // Asegura que Android y Computador esten en
 // la misma senal wifi
 
-function App() {
+// Si aún no Haz port forwarding para
+// el puerto de exp:... que sale en el CLI
+
+async function App() {
   return (
     <View style={styles.container}>
       <AppContainer/>
     </View>
   );
 }
+
+
 
 // App envuelta con React-Navigator
 const AppNavigator = createStackNavigator({

@@ -7,10 +7,10 @@ export default class NewColumn extends Component {
 	render (){
 		return (
 			// <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			
+			// Remember FlatLists si se pone pesado
 			<ScrollView horizontal>
+				<Text>---------------------------------------------------------------------------------------</Text>
 				<ScrollView>
-					<Text>asdsadasdasdasdasdasdasdasdggfgfasdsadasdasdasdasdasdasdasdggfgfasdsadasdasdasdasdasdasdasdggfgfasdsadasdasdasdasdasdasdasdggfgfasdsadasdasdasdasdasdasdasdggfgfasdsadasdasdasdasdasdasdasdggfgfasdsadasdasdasdasdasdasdasdggfgf</Text>
 					<ImagePicker/>
 			    </ScrollView>
 			</ScrollView>

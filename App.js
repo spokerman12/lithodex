@@ -14,8 +14,11 @@ import Settings from './screens/Settings'
 import AboutLithoDex  from './screens/AboutLithoDex'
 
 
+
 // Instalar todo con yarn
 // excepto react-navigation (npm)
+// Si async-storage no se instala, revisa
+// https://github.com/react-native-community/async-storage
 
 // Este proyecto se desarrolló con Expo
 // Asegura que Android y Computador esten en

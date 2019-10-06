@@ -76,12 +76,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-
-  // <View>
-  //             <Button title="Select" onPress={this.selectPicture}/>
-  //             <Button title="Take" onPress={this.takePicture}/>
-  //           </View>
-  //         {image &&
-  //               <Image source={{ uri: image }} style={{width:150, height: 150}}/>
-  //         }

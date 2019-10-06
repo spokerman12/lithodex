@@ -1,5 +1,5 @@
 Arguments: 
-  /home/daniel/.config/versions/node/v12.10.0/bin/node /usr/share/yarn/bin/yarn.js add expo-image-picker@~7.0.0
+  /home/daniel/.config/versions/node/v12.10.0/bin/node /usr/share/yarn/bin/yarn.js add expo-image-manipulator@~7.0.0
 
 PATH: 
   /home/daniel/.config/versions/node/v12.10.0/bin:/home/daniel/anaconda3/bin:/home/daniel/anaconda3/condabin:/usr/games:/home/daniel/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -28,7 +28,9 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
+      "@react-native-community/async-storage": "^1.6.2",
       "expo": "^35.0.0",
+      "expo-image-picker": "~7.0.0",
       "expo-location": "~7.0.0",
       "expo-permissions": "~7.0.0",
       "react": "16.8.3",
@@ -38,7 +40,10 @@ npm manifest:
       "react-native-image-picker": "^1.1.0",
       "react-native-web": "^0.11.7",
       "react-navigation": "^4.0.7",
-      "react-navigation-stack": "^1.8.1"
+      "react-navigation-stack": "^1.8.1",
+      "react-redux": "^7.1.1",
+      "redux": "^4.0.4",
+      "uuid": "^3.3.3"
     },
     "devDependencies": {
       "babel-preset-expo": "^7.0.0"
@@ -857,6 +862,13 @@ Lockfile:
     dependencies:
       regenerator-runtime "^0.13.2"
   
+  "@babel/runtime@^7.5.5":
+    version "7.6.2"
+    resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.6.2.tgz#c3d6e41b304ef10dcf13777a33e7694ec4a9a6dd"
+    integrity sha512-EXxN64agfUqqIGeEjI5dL5z0Sw0ZwWo1mLTi4mQowCZ42O59b7DRpZAnTC6OqdF28wMBMFKNb/4uFGrVaigSpg==
+    dependencies:
+      regenerator-runtime "^0.13.2"
+  
   "@babel/template@^7.0.0", "@babel/template@^7.1.0", "@babel/template@^7.4.4", "@babel/template@^7.6.0":
     version "7.6.0"
     resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.6.0.tgz#7f0159c7f5012230dad64cca42ec9bdb5c9536e6"
@@ -907,6 +919,11 @@ Lockfile:
       noop-fn "^1.0.0"
       pouchdb-collections "^1.0.1"
       tiny-queue "^0.2.1"
+  
+  "@react-native-community/async-storage@^1.6.2":
+    version "1.6.2"
+    resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.6.2.tgz#a19ca7149c4dfe8216f2330e6b1ebfe2d075ef92"
+    integrity sha512-EJGsbrHubK1mGxPjWB74AaHAd5m9I+Gg2RRPZzMK6org7QOU9WOBnIMFqoeVto3hKOaEPlk8NV74H6G34/2pZQ==
   
   "@react-native-community/cli@^1.2.1":
     version "1.11.2"
@@ -2037,6 +2054,11 @@ Lockfile:
     integrity sha512-OVlUydfexjq1u57Xlymcx5egfFF2WZ5MXkg3GGjHyiSMfp09inZ7OzAu+O/TXjxjlaq9d6vBXiwVxqQoUIlx1Q==
     dependencies:
       fontfaceobserver "^2.1.0"
+  
+  expo-image-picker@~7.0.0:
+    version "7.0.0"
+    resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-7.0.0.tgz#e4a5a52bd6f9655f75ecf3cc866aa9bb0c99e24b"
+    integrity sha512-LeGdAqbeuB2KsT369ns1kDtCGbyDCmY2gIFlf/rsD3+UmagRFX9emZLGPEnUNdCWXoctSejjFwxDnCUtpvL6yw==
   
   expo-keep-awake@~7.0.0:
     version "7.0.0"
@@ -4273,6 +4295,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
     integrity sha512-tJBzzzIgnnRfEm046qRcURvwQnZVXmuCbscxUO5RWrGTXpon2d4c8mI0D8WE6ydVIm29JiLB6+RslkIvym9Rjw==
   
+  react-is@^16.9.0:
+    version "16.10.2"
+    resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.10.2.tgz#984120fd4d16800e9a738208ab1fba422d23b5ab"
+    integrity sha512-INBT1QEgtcCCgvccr5/86CfD71fw9EPmDxgiJX4I2Ddr6ZsV6iFXsuby+qWJPtmNuMY0zByTsG4468P7nHuNWA==
+  
   react-native-branch@~3.0.1:
     version "3.0.1"
     resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-3.0.1.tgz#5b07b61cbd290168cd3c3662e017ebe0f356d2ca"
@@ -4406,6 +4433,18 @@ Lockfile:
       lodash "^4.6.1"
       react-deep-force-update "^1.0.0"
   
+  react-redux@^7.1.1:
+    version "7.1.1"
+    resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.1.1.tgz#ce6eee1b734a7a76e0788b3309bf78ff6b34fa0a"
+    integrity sha512-QsW0vcmVVdNQzEkrgzh2W3Ksvr8cqpAv5FhEk7tNEft+5pp7rXxAudTz3VOPawRkLIepItpkEIyLcN/VVXzjTg==
+    dependencies:
+      "@babel/runtime" "^7.5.5"
+      hoist-non-react-statics "^3.3.0"
+      invariant "^2.2.4"
+      loose-envify "^1.4.0"
+      prop-types "^15.7.2"
+      react-is "^16.9.0"
+  
   react-timer-mixin@^0.13.4:
     version "0.13.4"
     resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
@@ -4458,6 +4497,14 @@ Lockfile:
       safe-buffer "~5.1.1"
       string_decoder "~1.1.1"
       util-deprecate "~1.0.1"
+  
+  redux@^4.0.4:
+    version "4.0.4"
+    resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
+    integrity sha512-vKv4WdiJxOWKxK0yRoaK3Y4pxxB0ilzVx6dszU2W8wLxlb2yikRph4iV/ymtdJ6ZxpBLFbyrxklnT5yBbQSl3Q==
+    dependencies:
+      loose-envify "^1.4.0"
+      symbol-observable "^1.2.0"
   
   regenerate-unicode-properties@^8.1.0:
     version "8.1.0"
@@ -5022,6 +5069,11 @@ Lockfile:
     dependencies:
       has-flag "^3.0.0"
   
+  symbol-observable@^1.2.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
+    integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
+  
   tar@^4:
     version "4.4.11"
     resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.11.tgz#7ac09801445a3cf74445ed27499136b5240ffb73"
@@ -5285,7 +5337,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/uuid-js/-/uuid-js-0.7.5.tgz#6c886d02a53d2d40dcf25d91a170b4a7b25b94d0"
     integrity sha1-bIhtAqU9LUDc8l2RoXC0p7JblNA=
   
-  uuid@^3.3.2:
+  uuid@^3.3.2, uuid@^3.3.3:
     version "3.3.3"
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
     integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==

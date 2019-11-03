@@ -21,7 +21,7 @@ export default class ColumnGallery extends Component {
 	render (){
 		return (
 			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-	        	<Text>qweqwe</Text>
+	        	<Text>Elem0</Text>
 	        	<FlatList 
 	        		style={{flex:7}}
 	        		data={DATA}

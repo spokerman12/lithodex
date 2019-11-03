@@ -28,7 +28,11 @@
     },
     "android": {
       "package": "ve.usb.lithodex",
-      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
-    }
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
+    "description": ""
   }
 }

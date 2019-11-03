@@ -4,11 +4,12 @@ import { Text, Button, Image, View,
          FlatList } from 'react-native';
 
 import { Avatar, ListItem } from "react-native-elements";
-import { TriangleColorPicker } from 'react-native-color-picker'
+import { TriangleColorPicker, toHsv, fromHsv } from 'react-native-color-picker'
 
 import { PATTERNS } from '../constants/patterns'
 
 const sortedPatterns = PATTERNS.sort((a, b) => (a.name > b.name) ? 1 : -1)
+
 
 export default class LithologyPicker extends React.Component {
 
@@ -18,19 +19,24 @@ export default class LithologyPicker extends React.Component {
     pattern_image: null,
     pattern_id: null,
     pattern_name: null,
-    color:null,
+    color:toHsv('green'),
     modalVisible: false,
+
   }
 
-  renderItems = () => {
-    return sortedPatterns.map((item) => (
-      <TouchableHighlight onPress={()=>{this.itemSelection(item)}}>
+  renderItems () {
+    return sortedPatterns.map((item, i) => (
+      <TouchableHighlight 
+        onPress={() =>{this.itemSelection(item)}}
+        key={item.name.concat('TouchableHighlight')}
+      >
         <ListItem
           title={item.name}
           leftAvatar={<Avatar
                         size="large"
                         source={item.uri}
                       />}
+          key={item.name.concat('ListItem')}
         />
       </TouchableHighlight>
     ))
@@ -66,6 +72,10 @@ export default class LithologyPicker extends React.Component {
     this.setModalVisible(false)
   }
 
+  onColorChange = (color) => {
+    this.setState({ color })
+  }
+
   render() {
 
     let { image } = this.state;
@@ -78,7 +88,7 @@ export default class LithologyPicker extends React.Component {
             visible={this.state.modalVisible}
             onRequestClose={this.closeModal}>
             <View style={styles.modalContainer}>
-              <Text>Seleccione la litología y el color</Text>
+              <Text>Seleccione litología y el color</Text>
               <View style={styles.lithologyPicker}>
                 <ScrollView>
                   {this.renderItems()}
@@ -86,26 +96,36 @@ export default class LithologyPicker extends React.Component {
               </View>
               <View style={styles.lithologyPicker}>
                 <TriangleColorPicker
-                  onColorSelected={color => this.setState({ color: color})}
+                  color={this.state.color}
+                  onColorChange={this.onColorChange}
                   style={{flex: 1}}
                 />
               </View>
-              <View style={styles.row}>
-                <Text>{this.state.label}</Text>
+              <View style={styles.smallrow}>
+                <Text>Litología: {this.state.label}</Text>
               </View>
-              <View style={styles.row}>
+              <View style={styles.smallrow}>
+                <Text>Color: {fromHsv(this.state.color)}</Text>
+              </View>
+              <View style={styles.smallrow}>
                 <Button title="Aceptar" onPress={this.acceptSelection}/>
                 <Button title="Volver" color="#4f4f4f" onPress={this.cancelSelection}/>
               </View>
             </View>
           </Modal>
 
-	      <TouchableHighlight onPress={()=>{this.setModalVisible(true);}} style={{width:150, height: 150}}>
-	        <View style={styles.row}>
-	          {!image && <Text>(Toque para cambiar la litología)</Text>}
-	          {image && <Image source={image} style={{width:150, height: 150}}/>}
-	        </View>
-	      </TouchableHighlight>
+  	      <TouchableHighlight onPress={()=>{this.setModalVisible(true);}} style={{width:150, height: this.props.height}}>
+  	        <View style={styles.row}>
+  	          {!image && <Text>(Toque para cambiar la litología)</Text>}
+  	          {image && 
+                <View style={{backgroundColor:fromHsv(this.state.color)}}>
+                  <Image source={image} 
+                    style={{width:150, height: this.props.height, opacity: 0.5, borderColor: 'black', borderWidth: 1.5}}
+                  />
+                </View>
+              } 
+  	        </View>
+  	      </TouchableHighlight>
       	</View>
       );
     }
@@ -124,8 +144,14 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  smallrow: {
+    flex: 0.2,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding:20,
+    padding:10,
   },
 });

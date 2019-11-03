@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
+import { Provider, connect } from 'react-redux'
+import { createStore } from 'redux'
+
+import reducer from './reducers/reducers'
+
+import { Constants } from 'expo'
 
 import MainMenu  from './screens/MainMenu'
 import NewColumn from './screens/NewColumn'
+import ColumnScreen  from './screens/ColumnScreen'
 import NewCore from './screens/NewCore'
 import ColumnGallery  from './screens/ColumnGallery'
 import CoreGallery  from './screens/CoreGallery'
@@ -14,9 +21,11 @@ import Settings from './screens/Settings'
 import AboutLithoDex  from './screens/AboutLithoDex'
 
 
-
 // Instalar todo con yarn
-// excepto react-navigation (npm)
+// excepto react-navigation,
+//         react-native-picker-checkbox
+//         shortid
+// Para esos usa npm install <paquete> --save
 // Si async-storage no se instala, revisa
 // https://github.com/react-native-community/async-storage
 
@@ -27,15 +36,8 @@ import AboutLithoDex  from './screens/AboutLithoDex'
 // Si aún no Haz port forwarding para
 // el puerto de exp:... que sale en el CLI
 
-async function App() {
-  return (
-    <View style={styles.container}>
-      <AppContainer/>
-    </View>
-  );
-}
-
-
+// El mejor Redux tutorial
+// https://daveceddia.com/redux-tutorial/
 
 // App envuelta con React-Navigator
 const AppNavigator = createStackNavigator({
@@ -50,6 +52,13 @@ const AppNavigator = createStackNavigator({
     screen: NewColumn,
     navigationOptions: {
       title: 'Nueva columna',
+      backgroundColor: 'transparent',
+    },
+  },
+  ColumnScreen: {
+    screen: ColumnScreen,
+    navigationOptions: {
+      title: 'Crear columna',
       backgroundColor: 'transparent',
     },
   },
@@ -90,9 +99,21 @@ const AppNavigator = createStackNavigator({
   },
 });
 
-const AppContainer = createAppContainer(AppNavigator);
+// Store de Redux
+const store = createStore(reducer)
 
-export default AppContainer;
+
+export default class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <AppContainer/>
+      </Provider>
+    );
+  }
+}
+
+const AppContainer = createAppContainer(AppNavigator);
 
 const styles = StyleSheet.create({
   container: {

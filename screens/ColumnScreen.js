@@ -166,8 +166,6 @@ export default class ColumnScreen extends Component {
 	}
 }
 
-// {this.renderLayers()}
-
 const styles = StyleSheet.create({
   modal: {
     flex: 1,

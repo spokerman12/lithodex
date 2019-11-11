@@ -25,7 +25,8 @@ export default class ColumnScreen extends Component {
   state = {
   	columnName : this.props.navigation.getParam('columnName'),
   	columnLocation: this.props.navigation.getParam('columnLocation'),
-  	location: this.props.navigation.getParam('location'),
+  	longitude: this.props.navigation.getParam('longitude'),
+  	latitude: this.props.navigation.getParam('latitude'),
   	scale: this.props.navigation.getParam('scale'),
     lithology: this.props.navigation.getParam('lithology'),
     structure: this.props.navigation.getParam('structure'),
@@ -103,6 +104,7 @@ export default class ColumnScreen extends Component {
 	          </View>
 	          <View style={{padding:10, width:200}}>
 	          	<Text>...equivale a {this.state.realHeight} metros</Text>
+	          	<Text>(Solo valores entre 1 y 10)</Text>
 	          </View>
 	          <View style={{padding:10, width:200}}>
 							<Button title="OK" onPress={this.addLayer}/>

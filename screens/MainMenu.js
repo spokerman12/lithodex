@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableHighlight} from 'react-native';
-
+import { StyleSheet, Text, View, Image, TouchableHighlight,
+		 Platform,} from 'react-native';
+import { Constants } from 'expo';
 
 export default class MainMenu extends Component {
+
 	render (){
+
+		console.log('Running on...')
+		console.log(Platform.OS)
+		console.log(Platform.Version)
+
+		if ((Platform.Version <= 14) && Platform.OS=='android') {
+			return(
+				<View style={styles.menu}>
+					<Text>Lamentablemente, LithoDex solo funciona correctamente en versiones de Android 4.1 o mayor</Text>
+				</View>
+			)
+		}
+
 		return(
 			<View style={styles.menu}>
 				<Image 

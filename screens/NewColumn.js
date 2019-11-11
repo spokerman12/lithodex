@@ -24,6 +24,8 @@ class NewColumn extends Component {
   	columnName: '',
   	columnLocation: '',
   	location: null,
+    longitude:null,
+    latitude:null,
   	errorMessage:null,
   	scale:0.1,
     lithology: true,
@@ -45,7 +47,14 @@ class NewColumn extends Component {
       });
     }
     let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+    
+    longitude = JSON.stringify(location.coords.longitude) 
+    latitude = JSON.stringify(location.coords.latitude)
     this.setState({ location });
+    this.setState({
+      longitude:longitude,
+      latitude:latitude,
+    })
   };
 
   onChangeName = (text) => {
@@ -54,6 +63,14 @@ class NewColumn extends Component {
 
   onChangeLocation = (text) => {
   	this.setState({columnLocation: text})
+  }
+  
+  onChangeLongitude = (text) => {
+    this.setState({longitude: text})
+  }
+
+  onChangeLatitude = (text) => {
+    this.setState({latitude: text})
   }
 
   handleConfirm = (selectedItems) => {
@@ -85,7 +102,8 @@ class NewColumn extends Component {
   	const payload = {
   	  columnName: this.state.columnName,
 	  	columnLocation: this.state.columnLocation,
-	  	location:this.state.location,
+	  	longitude:this.state.longitude,
+      latitude:this.state.latitude,
 	  	scale:this.state.scale,
 	    lithology: this.state.lithology,
 	    structure: this.state.structure,
@@ -93,7 +111,6 @@ class NewColumn extends Component {
 	    fossil: this.state.fossil,
 	    note: this.state.note,
   	}
-  	// this.props.dispatch({ type: "ACCEPT_NEW_COLUMN", state: payload });
   	this.props.navigation.push('ColumnScreen', payload)
   }
 
@@ -137,21 +154,29 @@ class NewColumn extends Component {
         	</View>
         	<View style={styles.row}>
         		<Text style={{flex:1}}>Latitud: </Text>
-        		<Text>{latitude}</Text>
+        		<TextInput 
+              style={styles.textInput} 
+              defaultValue={latitude} 
+              onChangeText={text => this.onChangeLatitude(text)}
+              keyboardType='numeric'
+            />
         	</View>
         	<View style={styles.row}>
         		<Text style={{flex:1}}>Longitud: </Text>
-        		<Text>{longitude}</Text>
+            <TextInput 
+              style={styles.textInput} 
+              defaultValue={longitude} 
+              onChangeText={text => this.onChangeLongitude(text)}
+              keyboardType='numeric'
+            />
         	</View>
         	<View style={styles.row}>
         	<Text style={{flex:1}}>{"\n"}Escala (mínimo espesor de un estrato en metros): </Text>
 	        	<Picker
 	        		selectedValue={this.state.scale}
-	                style={{height: 100, width: 200, flex:1}}
-	                onValueChange={(itemValue, itemIndex) =>
-	                this.setState({scale: itemValue})
-	                  }
-	                >
+              style={{height: 100, width: 200, flex:1}}
+              onValueChange={(itemValue, itemIndex) => this.setState({scale: itemValue})}
+            >
               <Picker.Item label="0.1m" value={0.1}/>
               <Picker.Item label="1m" value={1}/>
               <Picker.Item label="10m" value={10}/>
@@ -188,7 +213,8 @@ function mapStateToProps (state) {
   return {
 	 	columnName: state.columnName,
   	columnLocation: state.columnLocation,
-  	location:state.location,
+    longitude:state.longitude,
+    latitude:state.location,
   	scale:state.scale,
     lithology: state.lithology,
     structure: state.structure,

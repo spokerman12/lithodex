@@ -8,6 +8,7 @@ import { TriangleColorPicker, toHsv, fromHsv, toRGB } from 'react-native-color-p
 
 import { PATTERNS } from '../constants/patterns'
 
+// AGREGAR BLANK EN TODOS LOS PICKER COMPONENTS
 const sortedPatterns = PATTERNS.sort((a, b) => (a.name > b.name) ? 1 : -1)
 
 
@@ -76,6 +77,7 @@ export default class LithologyPicker extends React.Component {
       label:item.name
     })
   }
+    // DB ENTRY
 
   cancelSelection = () => {
     this.setState({
@@ -98,6 +100,7 @@ export default class LithologyPicker extends React.Component {
     this.setState({ color })
   }
 
+    // PASAR A CMYK
   toRGB = (hex) => {
     let red = parseInt(hex.substring(1,2),16)
     let green = parseInt(hex.substring(3,4),16)

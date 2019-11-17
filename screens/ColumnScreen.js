@@ -18,6 +18,7 @@ import shortid from 'shortid'
 
 export default class ColumnScreen extends Component {	
 
+    // LOG ENTRY
   constructor(props) {
     super(props)
   }
@@ -47,6 +48,7 @@ export default class ColumnScreen extends Component {
   	this.setState({modalVisible: visible})
   }
 
+  	// CREAR COMPONENT
   addLayer = () => {
   	if (this.state.tempHeight >= 1 && this.state.tempHeight <= 10){
   		this.setModalVisible(false)
@@ -58,20 +60,23 @@ export default class ColumnScreen extends Component {
   	console.log(this.state.layerList)
   }
 
+  	// CREAR COMPONENT
   removeLayer = () => {
   	let array = this.state.layerList
   	let removed = array.shift()
   	this.setState({layerList: array})
   }
 
+  	// LOG ENTRY ???
+  	// decimales en espesor
   setRealHeight = (text) => {
   	this.setState({tempHeight: parseInt(text)})
   	const mult = parseInt(text)*this.state.scale
   	this.setState({realHeight: mult.toFixed(2)})
   }
 
+  	// PASS USER_ID, COLUMN_ID, ITEM.KEY (LAYER_ID) AS PROPS TO COMPONENTS
   renderItems () {
-  	console.log(this.state.layerList)
     return this.state.layerList.map((item) => (
     	<View style={styles.container_row} key={item.key+'_row'}>
     		{this.state.lithology && <LithologyPicker height={item.height} key={item.key+'_lithology'}/>}

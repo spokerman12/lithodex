@@ -20,7 +20,6 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch(action.type) {
   	// Las acciones deberian ser constantes
-  	// but ain't nobody got time fo' dat
     case 'ACCEPT_NEW_COLUMN':
       return {
         column_list: state

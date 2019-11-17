@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TextInput, Button,
-				Picker } from 'react-native';
+				Picker, AsyncStorage } from 'react-native';
 
 import { Provider, connect } from 'react-redux'
 
@@ -10,15 +10,23 @@ import * as Permissions from 'expo-permissions';
 
 import PickerCheckBox from 'react-native-picker-checkbox'
 
+import PouchDB from 'pouchdb-react-native'
+
+
+
 class NewColumn extends Component {
 
+    // LOG ENTRY
 	constructor(props) {
 		super(props)
 		this.handleConfirm = this.handleConfirm.bind(this)
 		this.onChangeName = this.onChangeName.bind(this)
 		this.onChangeLocation = this.onChangeLocation.bind(this)
 		this.acceptSettings = this.acceptSettings.bind(this)
-	}
+
+    const db = new PouchDB('myDB')
+
+  }
 
   state = {
   	columnName: '',
@@ -35,10 +43,12 @@ class NewColumn extends Component {
     note: false,
   }
 
+    // LOG ENTRY
   componentWillMount() {
-      this._getLocationAsync();
+    this._getLocationAsync()
   }
 
+    // LOG ENTRY
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -57,24 +67,28 @@ class NewColumn extends Component {
     })
   };
 
+    // LOG ENTRY
   onChangeName = (text) => {
   	this.setState({columnName: text})
   }
 
+    // LOG ENTRY
   onChangeLocation = (text) => {
   	this.setState({columnLocation: text})
   }
   
+    // LOG ENTRY
   onChangeLongitude = (text) => {
     this.setState({longitude: text})
   }
 
+    // LOG ENTRY
   onChangeLatitude = (text) => {
     this.setState({latitude: text})
   }
 
+    // LOG ENTRY
   handleConfirm = (selectedItems) => {
-    
     this.setState({
       structure:false,
       image:false,
@@ -95,11 +109,15 @@ class NewColumn extends Component {
         this.setState({image:true})
       }
     }
+
   }
 
+    // LOG ENTRY
 
   acceptSettings = () => {
-  	const payload = {
+  	
+
+    const payload = {
   	  columnName: this.state.columnName,
 	  	columnLocation: this.state.columnLocation,
 	  	longitude:this.state.longitude,
@@ -111,8 +129,11 @@ class NewColumn extends Component {
 	    fossil: this.state.fossil,
 	    note: this.state.note,
   	}
+
   	this.props.navigation.push('ColumnScreen', payload)
   }
+    // CREAR COLUMNA DB
+    // CREAR ID COLUMNA. PASAR DENTRO DEL PAYLOAD COMO CLAVE
 
 
   render() {

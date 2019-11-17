@@ -15,139 +15,10 @@ export default class NewCore extends Component {
 			// poner un modal donde escoga las entradas
 			// para Column Creator
 			<View style={styles.container}>
-
-				<ScrollView horizontal>
-					<View style={styles.column}>
-						<ScrollView style={{paddingTop:40}}>
-							<Text>Titulos 2</Text>
-							<View style={styles.column}>
-								<View style={styles.row}>
-									<LithologyPicker/>
-									<StructurePicker/>
-									<FossilPicker/>
-									<ImagePicker/>
-									<NotePicker/>
-								</View>
-							    <View style={styles.row}>
-									<LithologyPicker/>
-									<StructurePicker/>
-									<FossilPicker/>
-									<ImagePicker/>
-									<NotePicker/>
-								</View>
-								<View style={styles.row}>
-									<LithologyPicker/>
-									<StructurePicker/>
-									<FossilPicker/>
-									<ImagePicker/>
-									<NotePicker/>
-								</View>
-								<View style={styles.row}>
-									<LithologyPicker/>
-									<StructurePicker/>
-									<FossilPicker/>
-									<ImagePicker/>
-									<NotePicker/>
-								</View>
-								<View style={styles.row}>
-									<LithologyPicker/>
-									<StructurePicker/>
-									<FossilPicker/>
-									<ImagePicker/>
-									<NotePicker/>
-								</View>
-								<View style={styles.row}>
-									<LithologyPicker/>
-									<StructurePicker/>
-									<FossilPicker/>
-									<ImagePicker/>
-									<NotePicker/>
-								</View>
-								<View style={styles.row}>
-									<LithologyPicker/>
-									<StructurePicker/>
-									<FossilPicker/>
-									<ImagePicker/>
-									<NotePicker/>
-								</View>
-							</View>
-						</ScrollView>
-					</View>
-			    </ScrollView>
 			</View>
 		);
 	}
 }
-// export default class NewColumn extends Component {
-// 	render (){
-// 		return (
-// 			// Remember FlatLists si se pone pesado
-// 			// poner un modal donde escoga las entradas
-// 			// para Column Creator
-// 			<View style={styles.container}>
-
-// 				<ScrollView horizontal>
-// 					<View style={styles.column}>
-// 						<ScrollView style={{paddingTop:40}}>
-// 							<Text>Titulos 2</Text>
-// 							<View style={styles.column}>
-// 								<View style={styles.row}>
-// 									<LithologyPicker/>
-// 									<StructurePicker/>
-// 									<FossilPicker/>
-// 									<ImagePicker/>
-// 									<NotePicker/>
-// 								</View>
-// 							    <View style={styles.row}>
-// 									<LithologyPicker/>
-// 									<StructurePicker/>
-// 									<FossilPicker/>
-// 									<ImagePicker/>
-// 									<NotePicker/>
-// 								</View>
-// 								<View style={styles.row}>
-// 									<LithologyPicker/>
-// 									<StructurePicker/>
-// 									<FossilPicker/>
-// 									<ImagePicker/>
-// 									<NotePicker/>
-// 								</View>
-// 								<View style={styles.row}>
-// 									<LithologyPicker/>
-// 									<StructurePicker/>
-// 									<FossilPicker/>
-// 									<ImagePicker/>
-// 									<NotePicker/>
-// 								</View>
-// 								<View style={styles.row}>
-// 									<LithologyPicker/>
-// 									<StructurePicker/>
-// 									<FossilPicker/>
-// 									<ImagePicker/>
-// 									<NotePicker/>
-// 								</View>
-// 								<View style={styles.row}>
-// 									<LithologyPicker/>
-// 									<StructurePicker/>
-// 									<FossilPicker/>
-// 									<ImagePicker/>
-// 									<NotePicker/>
-// 								</View>
-// 								<View style={styles.row}>
-// 									<LithologyPicker/>
-// 									<StructurePicker/>
-// 									<FossilPicker/>
-// 									<ImagePicker/>
-// 									<NotePicker/>
-// 								</View>
-// 							</View>
-// 						</ScrollView>
-// 					</View>
-// 			    </ScrollView>
-// 			</View>
-// 		);
-// 	}
-// }
 
 const styles = StyleSheet.create({
   container: {
@@ -183,5 +54,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     opacity:1,
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
 });

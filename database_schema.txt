@@ -1,0 +1,19 @@
+DATABASE = { _id: 'default', log: [LOG_ENTRY_1, LOG_ENTRY_2, ... ], users: [ USER_1, USER_2, USER_3 ]}
+
+LOG_ENTRY = { _id:X, action:'A', code:0, time: milisegundos, }
+
+USER = { _id:X, username:'Bill', password: 'hashed', columns: [ COLUMN_1, COLUMN_2, ..., COLUMN_N ] }
+	
+COLUMN = { _id:YY, name:'AA', location:'USB', gps:{ long: 31223, lat: 1223 }, layers: [ LAYER_1, LAYER_2, ... LAYERN_N ] }
+
+LAYER = { 
+	_id: ZZ, 
+	height: 5, 
+	lith_color: #12323, 
+	lith_id: 123, 
+	struc_diameter: 13, 
+	struc_id: 124,
+	fossil_id: 123,
+	image: path ???,
+	note: 'blabla'
+}

@@ -7,9 +7,7 @@ export default class MainMenu extends Component {
 
 	render (){
 
-		console.log('Running on...')
-		console.log(Platform.OS)
-		console.log(Platform.Version)
+		console.log('Running on '+Platform.OS+' '+Platform.Version)
 
 		if ((Platform.Version <= 14) && Platform.OS=='android') {
 			return(

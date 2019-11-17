@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -20,6 +20,9 @@ import CoreGallery  from './screens/CoreGallery'
 import Settings from './screens/Settings'
 import AboutLithoDex  from './screens/AboutLithoDex'
 
+import PouchDB from 'pouchdb-react-native'
+
+import * as Log from './log/functions'
 
 // Instalar todo con yarn
 // excepto react-navigation,
@@ -33,13 +36,39 @@ import AboutLithoDex  from './screens/AboutLithoDex'
 // Asegura que Android y Computador esten en
 // la misma senal wifi
 
-// Si aún no Haz port forwarding para
+// Si aún no funciona, haz port forwarding para
 // el puerto de exp:... que sale en el CLI
+
+// Problemas con expo 
+// https://github.com/expo/expo/issues/1381
 
 // El mejor Redux tutorial
 // https://daveceddia.com/redux-tutorial/
 
-// App envuelta con React-Navigator
+
+// PouchDB
+const db = new PouchDB('lithodex')
+
+// Si no hay 'default' como objeto DATABASE,
+// lo crea
+db.get('default').then(function(database){
+  return db.put({
+    _id: 'default',
+    _rev: database._rev,
+    log: database.log.push(Log.open_app())
+  })
+}).catch(function (error) {
+  console.log(error)
+  db.put({
+    _id: 'default',
+    log: [Log.open_app()]
+  })
+  console.log(Log.open_app())
+})
+  
+
+
+// React-Navigator
 const AppNavigator = createStackNavigator({
   MainMenu: {
     screen: MainMenu,

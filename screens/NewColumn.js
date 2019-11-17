@@ -10,24 +10,27 @@ import * as Permissions from 'expo-permissions';
 
 import PickerCheckBox from 'react-native-picker-checkbox'
 
-import PouchDB from 'pouchdb-react-native'
-
+import * as Log from '../log/functions'
 
 
 class NewColumn extends Component {
 
-    // LOG ENTRY
 	constructor(props) {
 		super(props)
 		this.handleConfirm = this.handleConfirm.bind(this)
 		this.onChangeName = this.onChangeName.bind(this)
 		this.onChangeLocation = this.onChangeLocation.bind(this)
 		this.acceptSettings = this.acceptSettings.bind(this)
-
-    const db = new PouchDB('myDB')
-
   }
 
+  componentDidMount(){
+    const log_entry = Log.new_column()
+  }
+
+  componentWillMount(){
+   const log_entry = Log.back_to_menu() 
+  }
+   
   state = {
   	columnName: '',
   	columnLocation: '',
@@ -43,12 +46,10 @@ class NewColumn extends Component {
     note: false,
   }
 
-    // LOG ENTRY
   componentWillMount() {
     this._getLocationAsync()
   }
 
-    // LOG ENTRY
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -67,27 +68,30 @@ class NewColumn extends Component {
     })
   };
 
-    // LOG ENTRY
   onChangeName = (text) => {
   	this.setState({columnName: text})
   }
 
-    // LOG ENTRY
   onChangeLocation = (text) => {
   	this.setState({columnLocation: text})
   }
   
-    // LOG ENTRY
   onChangeLongitude = (text) => {
-    this.setState({longitude: text})
+    if (parseFloat(text)){
+      this.setState({longitude: text})
+    } else {
+      this.setState({longitude: '0'})
+    }
   }
 
-    // LOG ENTRY
   onChangeLatitude = (text) => {
-    this.setState({latitude: text})
+    if (parseFloat(text)){
+      this.setState({latitude: text})
+    } else {
+      this.setState({latitude: '0'})
+    }
   }
 
-    // LOG ENTRY
   handleConfirm = (selectedItems) => {
     this.setState({
       structure:false,
@@ -112,10 +116,7 @@ class NewColumn extends Component {
 
   }
 
-    // LOG ENTRY
-
-  acceptSettings = () => {
-  	
+  acceptSettings = () => {  	
 
     const payload = {
   	  columnName: this.state.columnName,
@@ -129,6 +130,8 @@ class NewColumn extends Component {
 	    fossil: this.state.fossil,
 	    note: this.state.note,
   	}
+
+
 
   	this.props.navigation.push('ColumnScreen', payload)
   }

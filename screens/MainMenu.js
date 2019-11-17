@@ -3,16 +3,14 @@ import { StyleSheet, Text, View, Image, TouchableHighlight,
 		 Platform,} from 'react-native';
 import { Constants } from 'expo';
 
+import { NavigationEvents } from 'react-navigation'
+
 import * as Log from '../log/functions'
 
 
 
 export default class MainMenu extends Component {
 
-	componentWillMount(){
-		const log_entry = Log.open_main_menu()
-	}
-	  
 	render (){
 
 		console.log('Running on '+Platform.OS+' '+Platform.Version)
@@ -27,6 +25,7 @@ export default class MainMenu extends Component {
 
 		return(
 			<View style={styles.menu}>
+				<NavigationEvents onDidFocus={payload => Log.open_main_menu()}/>
 				<Image 
 					style={{width: 100, height: 100, marginTop:40}}
 					source={require('../assets/icon.png')}

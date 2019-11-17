@@ -18,10 +18,10 @@ import shortid from 'shortid'
 
 export default class ColumnScreen extends Component {	
 
-    // LOG ENTRY
   constructor(props) {
     super(props)
   }
+
 
   state = {
   	columnName : this.props.navigation.getParam('columnName'),

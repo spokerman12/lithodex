@@ -21,28 +21,7 @@ import Settings from './screens/Settings'
 import AboutLithoDex  from './screens/AboutLithoDex'
 
 import * as Log from './log/functions'
-
-// Instalar todo con yarn
-// excepto react-navigation,
-//         react-native-picker-checkbox
-//         shortid
-// Para esos usa npm install <paquete> --save
-// Si async-storage no se instala, revisa
-// https://github.com/react-native-community/async-storage
-
-// Este proyecto se desarrolló con Expo
-// Asegura que Android y Computador esten en
-// la misma senal wifi
-
-// Si aún no funciona, haz port forwarding para
-// el puerto de exp:... que sale en el CLI
-
-// Problemas con expo 
-// https://github.com/expo/expo/issues/1381
-
-// El mejor Redux tutorial
-// https://daveceddia.com/redux-tutorial/  
-
+import * as Database from './database/functions'
 
 // React-Navigator
 const AppNavigator = createStackNavigator({
@@ -108,13 +87,15 @@ const AppNavigator = createStackNavigator({
 const store = createStore(reducer)
 
 
-
 export default class App extends Component {
 
   componentWillMount(){
-    // Generar log
+    // const clear_db = Log.clear_app()
     const log_entry = Log.open_app()
-    // const log_entry = Log.clear_log()
+  }
+
+  componentDidMount(){
+    // const default_user = Database.new_user()
   }
 
   render() {
@@ -137,3 +118,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+

@@ -3,8 +3,16 @@ import { StyleSheet, Text, View, Image, TouchableHighlight,
 		 Platform,} from 'react-native';
 import { Constants } from 'expo';
 
+import * as Log from '../log/functions'
+
+
+
 export default class MainMenu extends Component {
 
+	componentWillMount(){
+		const log_entry = Log.open_main_menu()
+	}
+	  
 	render (){
 
 		console.log('Running on '+Platform.OS+' '+Platform.Version)

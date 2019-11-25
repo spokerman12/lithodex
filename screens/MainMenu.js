@@ -23,29 +23,15 @@ export default class MainMenu extends Component {
 			)
 		}
 
+		// <NavigationEvents onDidFocus={payload => Log.open_main_menu()}/>
 		return(
 			<View style={styles.menu}>
-				<NavigationEvents onDidFocus={payload => Log.open_main_menu()}/>
+				
 				<Image 
 					style={{width: 100, height: 100, marginTop:40}}
 					source={require('../assets/icon.png')}
 				/>
 				<View style={styles.row}>
-					<TouchableHighlight 
-						onPress={() => this.props.navigation.push('NewColumn')}
-						underlayColor= '#cccc'
-						style={styles.menu_item}>
-							<View>
-								<Image 
-									style={{width: 100, height: 100}}
-									source={require('../assets/new_column_icon.png')}
-								/>
-								<Text style={styles.menu_item_text}>
-									Nueva{"\n"}columna
-								</Text>
-							</View>
-					</TouchableHighlight>
-
 					<TouchableHighlight 
 						onPress={() => this.props.navigation.push('ColumnGallery')}
 						underlayColor= '#cccc'
@@ -56,7 +42,7 @@ export default class MainMenu extends Component {
 									source={require('../assets/new_column_icon.png')}
 								/>
 								<Text style={styles.menu_item_text}>
-									Galería{"\n"}de columnas
+									Galería de{"\n"}columnas
 								</Text>
 							</View>
 					</TouchableHighlight>

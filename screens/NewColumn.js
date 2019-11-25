@@ -11,7 +11,9 @@ import * as Permissions from 'expo-permissions';
 import PickerCheckBox from 'react-native-picker-checkbox'
 
 import * as Log from '../log/functions'
+import * as Database from '../database/functions'
 
+import PouchDB from 'pouchdb-react-native'
 
 class NewColumn extends Component {
 
@@ -27,9 +29,6 @@ class NewColumn extends Component {
     const log_entry = Log.new_column()
   }
 
-  componentWillMount(){
-   const log_entry = Log.back_to_menu() 
-  }
    
   state = {
   	columnName: '',
@@ -117,8 +116,18 @@ class NewColumn extends Component {
   }
 
   acceptSettings = () => {  	
+    // Aqui pasamos a la siguiente pantalla
+    // y se le pasa el payload como props de Navigation
+    // Hacer llegar el user_id adecuado
+    // segun la logica del manejo de usuarios
+
+    // Tiempo como id secuencial de la columna para PouchDB
+    const current_time = new Date().getTime();
+
 
     const payload = {
+      user_id: 'admin',
+      column_id: current_time,
   	  columnName: this.state.columnName,
 	  	columnLocation: this.state.columnLocation,
 	  	longitude:this.state.longitude,
@@ -131,11 +140,11 @@ class NewColumn extends Component {
 	    note: this.state.note,
   	}
 
-
+    // Se crea la nueva columna en la base de datos
+    Database.new_column(payload)
 
   	this.props.navigation.push('ColumnScreen', payload)
   }
-    // CREAR COLUMNA DB
     // CREAR ID COLUMNA. PASAR DENTRO DEL PAYLOAD COMO CLAVE
 
 

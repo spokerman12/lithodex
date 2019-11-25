@@ -1,45 +1,8 @@
 import PouchDB from 'pouchdb-react-native'
 
-export function clear_app() {
-
-	const db = new PouchDB('lithodex')
-	// db.destroy()
-
-	return db.put({
-		_id:'default',
-		log:[],
-		users:[]
-	}).then(function (response){
-		console.log('Clear Database')
-		db.get('default').then(function(doc){
-			console.log(doc)
-		})
-	}).catch(function (error){
-		console.log('Not ok')
-	})
-}
-
-export function clear_log() {
-
-	const db = new PouchDB('lithodex')
-
-	db.get('default')
-		.then(function(database){
-			console.log('Clear Log')
-			return db.put({
-				_id:'default',
-				_rev:database._rev,
-				log:[],
-				users:database.users
-			})
-		}).catch(function (error){
-			console.log('Not ok')
-		})
-}
-
 export function open_app() {
 
-	const db = new PouchDB('lithodex')
+	const db = new PouchDB('lithodex',{auto_compaction: true})
 	const current_time = new Date().getTime();
 	const entry_type = 'Open app'
 	const entry_code = 0
@@ -57,13 +20,13 @@ export function open_app() {
 			console.log('Log - '+entry_type)
 			return db.put(database)
 		}).catch(function (error){
-			console.log('Log Failed')
+			console.log(['Log Failed',error])
 		})
 }
 
 export function open_main_menu() {
 
-	const db = new PouchDB('lithodex')
+	const db = new PouchDB('lithodex',{auto_compaction: true})
 	const current_time = new Date().getTime();
 	const entry_type = 'Open Main Menu'
 	const entry_code = 1
@@ -81,13 +44,13 @@ export function open_main_menu() {
 			console.log('Log - '+entry_type)
 			return db.put(database)
 		}).catch(function (error){
-			console.log('Log Failed')
+			console.log(['Log Failed',error])
 		})
 }
 
 export function new_column() {
 
-	const db = new PouchDB('lithodex')
+	const db = new PouchDB('lithodex',{auto_compaction: true})
 	const current_time = new Date().getTime();
 	const entry_type = 'New Column'
 	const entry_code = 2
@@ -105,13 +68,13 @@ export function new_column() {
 			console.log('Log - '+entry_type)
 			return db.put(database)
 		}).catch(function (error){
-			console.log('Log Failed')
+			console.log(['Log Failed',error])
 		})
 }
 
 export function back_to_menu() {
 
-	const db = new PouchDB('lithodex')
+	const db = new PouchDB('lithodex',{auto_compaction: true})
 	const current_time = new Date().getTime();
 	const entry_type = 'Back to menu'
 	const entry_code = 3
@@ -129,6 +92,6 @@ export function back_to_menu() {
 			console.log('Log - '+entry_type)
 			return db.put(database)
 		}).catch(function (error){
-			console.log('Log Failed')
+			console.log(['Log Failed',error])
 		})
 }

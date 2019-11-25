@@ -23,6 +23,9 @@ import AboutLithoDex  from './screens/AboutLithoDex'
 import * as Log from './log/functions'
 import * as Database from './database/functions'
 
+import PouchDB from 'pouchdb-react-native'
+
+
 // React-Navigator
 const AppNavigator = createStackNavigator({
   MainMenu: {
@@ -35,14 +38,14 @@ const AppNavigator = createStackNavigator({
   NewColumn: {
     screen: NewColumn,
     navigationOptions: {
-      title: 'Nueva columna',
+      title: 'Información de columna',
       backgroundColor: 'transparent',
     },
   },
   ColumnScreen: {
     screen: ColumnScreen,
     navigationOptions: {
-      title: 'Crear columna',
+      title: 'Editar columna',
       backgroundColor: 'transparent',
     },
   },
@@ -89,13 +92,12 @@ const store = createStore(reducer)
 
 export default class App extends Component {
 
-  componentWillMount(){
-    // const clear_db = Log.clear_app()
-    const log_entry = Log.open_app()
-  }
-
   componentDidMount(){
-    // const default_user = Database.new_user()
+    new PouchDB('lithodex').destroy().then(function () {
+      Database.dummy_database()
+    }).catch(function (error) {
+      console.log(error)
+    })
   }
 
   render() {

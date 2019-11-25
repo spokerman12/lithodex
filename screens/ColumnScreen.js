@@ -22,6 +22,17 @@ export default class ColumnScreen extends Component {
     super(props)
   }
 
+	// static navigationOptions = ({ navigation }) => {
+	//   return {
+	//     headerLeft: () => (
+	//       <Button
+	//         onPress={() => navigation.navigate('ColumnGallery')}
+	//         title="Lista de columnas"
+	//       />
+	//     )
+	//   };
+	// }
+
 
   state = {
   	columnName : this.props.navigation.getParam('columnName'),
@@ -89,7 +100,6 @@ export default class ColumnScreen extends Component {
   }
 
 	render (){
-		console.log(this.state)
 		return (
 			<View style={{flexDirection:'column', paddingTop:20}}>
 				

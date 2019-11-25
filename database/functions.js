@@ -1,50 +1,37 @@
 import PouchDB from 'pouchdb-react-native'
 
-export function clear_app() {
+
+export function dummy_database() {
 
 	const db = new PouchDB('lithodex')
+	const current_time = new Date().getTime();
+	const user = {
+  	_id: 'admin',
+	  username: 'admin',
+	  password:'admin',
+	  created_on: current_time,
+	  columns:[],
+  }	
 
-	db.get('default')
-		.then(function(database){
-			console.log('Clear Database')
-			return db.put({
-				_id:'default',
-				_rev:database._rev,
-				log:[],
-				users:[]
-			})
-		}).catch(function (error){
-			console.log('Not ok')
-		})
-}
-
-export function clear_users() {
-
-	const db = new PouchDB('lithodex')
-
-	db.get('default')
-		.then(function(database){
-			console.log('Clear Users')
-			return db.put({
-				_id:'default',
-				_rev:database._rev,
-				log:database.log,
-				users:[]
-			})
-		}).catch(function (error){
-			console.log('Not ok')
-		})
+	return db.put({
+		_id:'default',
+		log:[],
+		users:[user]
+	}).catch(function (error){
+		console.log(['Dummy DB failed',error])
+	})
 }
 
 
-
-export function new_user(name='admin', password='admin') {
+export function new_user(name, password) {
 
 	const db = new PouchDB('lithodex')
 	const current_time = new Date().getTime();
 
+	// El id debe ser el username?
+	// Por ahora si
   const user = {
-  	_id: current_time,
+  	_id: name,
 	  username: name,
 	  password:password,
 	  created_on: current_time,
@@ -53,41 +40,72 @@ export function new_user(name='admin', password='admin') {
 
 	db.get('default')
 		.then(function(database){
-			console.log('wryy')
-			console.log(database)
-			database.users.push(user)
-			console.log(name+' user created')
-			return db.put(database)
+
+			// Aqui debe verificar si el usuario ya existe
+			// Necesito probar a admin, pero modifica esto a conveniencia
+			const current_user = database.users.find(element => element._id === 'admin');
+			
+			if (current_user !== undefined ){
+				console.log('User already exists')
+			} else {
+				database.users.push(user)
+				console.log(name+' user created')
+				console.log(database.users)
+				db.put(database)
+			}
+			
 		}).catch(function (error){
-			console.log('User creation failed')
-			console.log(error)
+			console.log(['User creation failed',error])
 		})
 }
 
-export function new_column(payload) {
+export function new_column(new_column_data) {
 
 	const db = new PouchDB('lithodex')
 	const current_time = new Date().getTime();
 
-  const kek = {
-	  columnName: this.state.columnName,
-  	columnLocation: this.state.columnLocation,
-  	longitude:this.state.longitude,
-    latitude:this.state.latitude,
-  	scale:this.state.scale,
-    lithology: this.state.lithology,
-    structure: this.state.structure,
-    image: this.state.image,
-    fossil: this.state.fossil,
-    note: this.state.note,
-  }
+  const current_user_id = new_column_data.user_id
+	console.log('Creating new column for '+current_user_id)
+	
+	// Solo para saber que tiene el payload...
+  const payload = {
+      column_id: current_time,
+  	  columnName: new_column_data.columnName,
+	  	columnLocation: new_column_data.columnLocation,
+	  	longitude:new_column_data.longitude,
+      latitude:new_column_data.latitude,
+	  	scale:new_column_data.scale,
+	    lithology: new_column_data.lithology,
+	    structure: new_column_data.structure,
+	    image: new_column_data.image,
+	    fossil: new_column_data.fossil,
+	    note: new_column_data.note,
+  	}
+
 
 	db.get('default')
-		.then(function(database){
-			database.log.push(log_entry)
-			console.log('Log - '+entry_type)
+		.then(function(database){			
+			const current_user = database.users.find(element => element._id === current_user_id);
+			console.log(database)
+			console.log(current_user)
+			current_user.columns.push(payload)
+			console.log(['Column created',new_column_data.columnName])
 			return db.put(database)
 		}).catch(function (error){
-			console.log('Log Failed')
+			console.log(['Column creation Failed',error])
+		})
+}
+
+export async function get_columns(current_user_id='admin') {
+
+	const db = new PouchDB('lithodex')
+	
+	
+	db.get('default')
+		.then(function(database){			
+			const current_user = database.users.find(element => element._id === current_user_id);
+		 	return (current_user.columns)
+		}).catch(function (error){
+			console.log(['Column fetching Failed',error])
 		})
 }

@@ -92,7 +92,8 @@ const store = createStore(reducer)
 
 export default class App extends Component {
 
-  componentDidMount(){
+  constructor(props) {
+    super(props)
     new PouchDB('lithodex').destroy().then(function () {
       Database.dummy_database()
     }).catch(function (error) {

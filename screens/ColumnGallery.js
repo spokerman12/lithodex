@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator, } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, ActivityIndicator, Modal, } from 'react-native';
 import { ListItem, Button } from 'react-native-elements'
 
 import { NavigationEvents } from 'react-navigation'
@@ -17,10 +17,10 @@ export default class ColumnGallery extends Component {
 			loading:true,
 			columnList: [],
 			renderList: [],
+			modalVisible:false,
+			selectedColumn:null,
 		}
 		this.getColumns = this.getColumns.bind(this)
-		this.setState = this.setState.bind(this)
-		this.componentDidMount = this.componentDidMount.bind(this)
 	}
 
 
@@ -30,7 +30,6 @@ export default class ColumnGallery extends Component {
 		db.get('default')
 			.then( database => {
 				const current_user = database.users.find(element => element._id === current_user_id);
-				console.log(database.users)
 				if (current_user){
 					this.setState({
 						loading:false,
@@ -38,11 +37,13 @@ export default class ColumnGallery extends Component {
 						renderList: current_user.columns.map((item, index) => (
 							<ListItem
 				        key={index}
-				        title={item.columnName + ' hola'}
-				        subtitle={item.columnLocation+ ' Subtitulo'}
+				        title={item.columnName}
+				        subtitle={item.columnLocation}
 				        avatar={{uri:''}}
 				        bottomDivider
 				        chevron
+				        onPress={() => {this.editColumn(item)}}
+				        onLongPress={() => this.showModal(item)}
 				      />
 				    ))
 					})
@@ -50,8 +51,29 @@ export default class ColumnGallery extends Component {
 			})
 	}
 
-	editColumn = (payload) => {  	
-	  	// this.props.navigation.push('ColumnScreen', payload)
+	editColumn(column) {  	
+	  this.props.navigation.push('ColumnScreen', column)
+  }
+
+  showModal(column) {  	
+	  this.setState({
+	  	'selectedColumn': column,
+	  	'modalVisible':true,
+	  })
+  }
+
+  closeModal = () => {
+  	this.setState({
+  		'modalVisible':false,
+  	})
+  }
+
+  editColumnInfo(column) {  	
+  	this.setState({
+  		'modalVisible':false,
+  	})
+  	column.wasCreated = true
+	  this.props.navigation.push('NewColumn', column)
   }
   
   newColumn = () => {  	
@@ -74,10 +96,10 @@ export default class ColumnGallery extends Component {
 
 
 	render (){
-		if (this.state.loading === true){
+		if (this.state.loading){
 			return (
 				<View style={{ flex: 1, alignItems: 'center',justifyContent: 'flex-start'}}>
-				<NavigationEvents onDidFocus={payload => this.loadColumns()}/>
+				<NavigationEvents onWillFocus={payload => this.loadColumns()}/>
 	      	<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
 						<ActivityIndicator size="small" color="#0000ff" />
 						<Text>Cargando...</Text>
@@ -87,7 +109,44 @@ export default class ColumnGallery extends Component {
 		} else {
 			return (
 				<View style={{ flex: 1, alignItems: 'center',justifyContent: 'flex-start'}}>
+				<NavigationEvents onWillFocus={payload => this.loadColumns()}/>
 				<NavigationEvents onDidFocus={payload => this.loadColumns()}/>
+					<Modal
+	            animationType="slide"
+	            transparent={false}
+	            visible={this.state.modalVisible}
+	            onRequestClose={this.closeModal}>
+	            <View style={{ flex: 1}}>
+		            <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+			            <View style={{alignItems: 'center',justifyContent: 'center', padding: 30}}>
+				            <Button
+											raised
+										  icon={{name: 'create'}}
+										  title='Modificar información de columna' 
+										  onPress={() => {this.editColumnInfo(this.state.selectedColumn)}}
+										/>
+									</View>
+									<View style={{alignItems: 'center',justifyContent: 'center', padding: 30}}>
+										<Button
+											raised
+										  icon={{name: 'clear'}}
+										  title='Eliminar columna' 
+										  onPress={this.closeModal}
+										/>
+									</View>
+								</View>
+								<View style={{flex: 0.2, alignItems: 'center',justifyContent: 'center', padding: 30}}>
+				            <Button
+											raised
+										  icon={{name: 'undo'}}
+										  title='Volver' 
+										  onPress={this.closeModal}
+										/>
+								</View>
+							</View>
+	        </Modal>
+
+
 	      	<View style={{ flex: 0.9, justifyContent: 'flex-start', flexDirection: 'row'}}>
 						<ScrollView>
 							{this.state.renderList}

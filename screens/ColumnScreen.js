@@ -14,87 +14,100 @@ import NotePicker from '../components/NotePicker'
 import FossilPicker from '../components/FossilPicker'
 import StructurePicker from '../components/StructurePicker'
 
+import * as Database from '../database/functions'
+
 import shortid from 'shortid'
 
 export default class ColumnScreen extends Component {	
 
   constructor(props) {
     super(props)
+
+    this.state = {
+    	columnName : this.props.navigation.getParam('columnName'),
+	  	columnId : this.props.navigation.getParam('columnId'),
+	  	columnLocation: this.props.navigation.getParam('columnLocation'),
+	  	longitude: this.props.navigation.getParam('longitude'),
+	  	latitude: this.props.navigation.getParam('latitude'),
+	  	scale: this.props.navigation.getParam('scale'),
+	    lithology: this.props.navigation.getParam('lithology'),
+	    structure: this.props.navigation.getParam('structure'),
+	    image: this.props.navigation.getParam('image'),
+	    fossil: this.props.navigation.getParam('fossil'),
+	    note: this.props.navigation.getParam('note'),
+
+
+	    layerList : this.props.navigation.getParam('layerList'),
+
+	    modalVisible: false,
+
+	    realHeight:0,
+	    tempHeight:0,	
+    }
   }
 
-	// static navigationOptions = ({ navigation }) => {
-	//   return {
-	//     headerLeft: () => (
-	//       <Button
-	//         onPress={() => navigation.navigate('ColumnGallery')}
-	//         title="Lista de columnas"
-	//       />
-	//     )
-	//   };
-	// }
-
-
-  state = {
-  	columnName : this.props.navigation.getParam('columnName'),
-  	columnLocation: this.props.navigation.getParam('columnLocation'),
-  	longitude: this.props.navigation.getParam('longitude'),
-  	latitude: this.props.navigation.getParam('latitude'),
-  	scale: this.props.navigation.getParam('scale'),
-    lithology: this.props.navigation.getParam('lithology'),
-    structure: this.props.navigation.getParam('structure'),
-    image: this.props.navigation.getParam('image'),
-    fossil: this.props.navigation.getParam('fossil'),
-    note: this.props.navigation.getParam('note'),
-
-
-    layerList : [],
-
-    modalVisible: false,
-
-    realHeight:0,
-    tempHeight:0,
-  }
 
   setModalVisible(visible){
   	this.setState({modalVisible: visible})
   }
 
-  	// CREAR COMPONENT
   addLayer = () => {
   	if (this.state.tempHeight >= 1 && this.state.tempHeight <= 10){
   		this.setModalVisible(false)
 	  	this.state.layerList.unshift({
   			height: 50*this.state.tempHeight,
   			key: shortid.generate(),
+  			lithology_data:{},
+  			structure_data:{},
+  			fossil_data:{},
+  			image_data:{},
+  			note_data:{},
   		})
   	}
-  	console.log(this.state.layerList)
+  	this.saveLayerList(this.state.columnId, this.state.layerList)
   }
 
-  	// CREAR COMPONENT
   removeLayer = () => {
   	let array = this.state.layerList
   	let removed = array.shift()
   	this.setState({layerList: array})
   }
 
-  	// LOG ENTRY ???
-  	// decimales en espesor
   setRealHeight = (text) => {
-  	this.setState({tempHeight: parseInt(text)})
-  	const mult = parseInt(text)*this.state.scale
+  	this.setState({tempHeight: parseFloat(text)})
+  	const mult = parseFloat(text)*this.state.scale
   	this.setState({realHeight: mult.toFixed(2)})
   }
 
-  	// PASS USER_ID, COLUMN_ID, ITEM.KEY (LAYER_ID) AS PROPS TO COMPONENTS
+  saveLayerList = (columnId,layerList) =>{
+  	// var i;
+  	// console.log(layerList)
+  	// console.log(this.refs)
+  	// if (this.state.lithology){ 
+  	// 		for (i = 0; i < layerList.length; i++) {
+  	// 			layerList[i].lithology_data = this.refs[layerList[i].key+'_lithology'].state;
+  	// 			layerList[i].structure_data = this.refs[layerList[i].key+'_structure'].state;
+  	// 			layerList[i].fossil_data = this.refs[layerList[i].key+'_fossil'].state;
+  	// 			layerList[i].image_data = this.refs[layerList[i].key+'_image'].state;
+  	// 			layerList[i].note_data = this.refs[layerList[i].key+'_note'].state;
+  	// 		} 
+  	// }
+  	Database.saveLayerList(columnId, layerList)
+  }
+
   renderItems () {
-    return this.state.layerList.map((item) => (
+  	return this.state.layerList.map((item) => (
     	<View style={styles.container_row} key={item.key+'_row'}>
-    		{this.state.lithology && <LithologyPicker height={item.height} key={item.key+'_lithology'}/>}
-    		{this.state.structure && <StructurePicker height={item.height} key={item.key+'_structure'}/>}
-    		{this.state.fossil && <FossilPicker height={item.height} key={item.key+'_fossil'}/>}
-    		{this.state.image && <ImagePicker height={item.height} key={item.key+'_image'}/>}
-    		{this.state.note && <NotePicker height={item.height} key={item.key+'_note'}/>}
+    		{this.state.lithology && 
+    			<LithologyPicker ref={item.key+'_lithology'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_lithology'} key={item.key+'_lithology'} layer={item.key} data={item.lithology_data}/>}
+    		{this.state.structure &&
+    		 <StructurePicker ref={item.key+'_structure'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_structure'} key={item.key+'_structure'} layer={item.key} data={item.structure_data}/>}
+    		{this.state.fossil &&
+    		 <FossilPicker ref={item.key+'_fossil'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_fossil'} key={item.key+'_fossil'} layer={item.key} data={item.fossil_data}/>}
+    		{this.state.image &&
+    		 <ImagePicker ref={item.key+'_image'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_image'} key={item.key+'_image'} layer={item.key} data={item.image_data}/>}
+    		{this.state.note &&
+    		 <NotePicker ref={item.key+'_note'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_note'} key={item.key+'_note'} layer={item.key} data={item.note_data}/>}
 			</View>
     ))
   }
@@ -136,6 +149,9 @@ export default class ColumnScreen extends Component {
 						</View>
 						<View style={{flex:0.5, padding:10, width:90}}>
 							<Button title="-" onPress={this.removeLayer} color='red'/>
+						</View>
+						<View style={{flex:0.5, padding:10, width:90}}>
+							<Button title="Guardar" onPress={() => {this.saveLayerList(this.state.columnId,this.state.layerList)}}/>
 						</View>
 					</View>
 

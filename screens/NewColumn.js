@@ -127,7 +127,7 @@ class NewColumn extends Component {
 
     const payload = {
       user_id: 'admin',
-      column_id: current_time,
+      columnId: current_time,
   	  columnName: this.state.columnName,
 	  	columnLocation: this.state.columnLocation,
 	  	longitude:this.state.longitude,
@@ -138,14 +138,24 @@ class NewColumn extends Component {
 	    image: this.state.image,
 	    fossil: this.state.fossil,
 	    note: this.state.note,
+
+      layerList:[],
   	}
 
     // Se crea la nueva columna en la base de datos
-    Database.new_column(payload)
+    if (this.state.wasCreated){
+      // var updated_column = this.state.columnFromDB
+      
+      // actualiza info de columna en DB
+      // Database.update_column(payload)
 
-  	this.props.navigation.push('ColumnScreen', payload)
+    } else {
+      Database.new_column(payload)
+
+    }
+
+  	this.props.navigation.goBack()
   }
-    // CREAR ID COLUMNA. PASAR DENTRO DEL PAYLOAD COMO CLAVE
 
 
   render() {
@@ -254,6 +264,8 @@ function mapStateToProps (state) {
     image: state.image,
     fossil: state.fossil,
     note: state.note,
+
+    layerList:[],
   }
 }
 

@@ -8,22 +8,34 @@ import { TriangleColorPicker, toHsv, fromHsv, toRGB } from 'react-native-color-p
 
 import { PATTERNS } from '../constants/patterns'
 
+import * as Database from '../database/functions'
+
 // AGREGAR BLANK EN TODOS LOS PICKER COMPONENTS
 const sortedPatterns = PATTERNS.sort((a, b) => (a.name > b.name) ? 1 : -1)
 
 
 export default class LithologyPicker extends React.Component {
 
-  state = {
-    image:null,
-    label:null,
-    pattern_image: null,
-    pattern_id: null,
-    pattern_name: null,
-    color:toHsv('green'),
-    modalVisible: false,
-    filter_name:null,
+  constructor(props){
+    super(props)
 
+    // if (this.props.data){
+    //   console.log(this.props.data)
+    //   console.log('shoulda')
+    //   this.state = this.props.data
+    // } else {
+      console.log('woulda')
+      this.state = {
+        image:null,
+        label:null,
+        pattern_image: null,
+        pattern_id: null,
+        pattern_name: null,
+        color:toHsv('green'),
+        modalVisible: false,
+        filter_name:null,
+      }  
+    // }
   }
 
   renderItems(filter_name) {
@@ -77,7 +89,6 @@ export default class LithologyPicker extends React.Component {
       label:item.name
     })
   }
-    // DB ENTRY
 
   cancelSelection = () => {
     this.setState({

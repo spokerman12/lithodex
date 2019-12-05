@@ -22,6 +22,29 @@ export function dummy_database() {
 	})
 }
 
+export function new_database() {
+
+	const db = new PouchDB('lithodex')
+	const current_time = new Date().getTime();
+	const user = {
+  	_id: 'admin',
+	  username: 'admin',
+	  password:'admin',
+	  created_on: current_time,
+	  columns:[],
+  }	
+
+  db.info()
+  .then(() => {
+    console.log('Database exists')
+    return true
+  })
+  .catch(e => {
+  	console.log('No database found. Creating dummy...')
+    return dummy_database()
+  });
+}
+
 
 export function new_column(new_column_data) {
 

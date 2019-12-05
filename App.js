@@ -94,11 +94,7 @@ export default class App extends Component {
 
   constructor(props) {
     super(props)
-    new PouchDB('lithodex').destroy().then(function () {
-      Database.dummy_database()
-    }).catch(function (error) {
-      console.log(error)
-    })
+    Database.new_database()
   }
 
   render() {

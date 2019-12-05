@@ -35,11 +35,14 @@ export default class ImagePicker extends React.Component {
     if(!cancelled) {
       this.setState({ image: uri, modalVisible: false });
 
-      Database.saveComponentState(this.state, this.props.columnId, this.props.layerKey, this.props.componentKey)
+      Database.saveComponentState({...this.state, image:uri, modalVisible:false}, this.props.columnId, this.props.layerKey, this.props.componentKey)
 
       console.log(this.state)
       console.log([this.props.columnId, this.props.layerKey, this.props.componentKey])
       console.log('UPDATE THIS')
+    } else {
+      this.setState({modalVisible: false });
+      console.log('error')
     }
   
   }

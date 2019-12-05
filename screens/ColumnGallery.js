@@ -36,7 +36,8 @@ export default class ColumnGallery extends Component {
 						columnList: current_user.columns,
 						renderList: current_user.columns.map((item, index) => (
 							<ListItem
-				        key={index}
+				        key={item.columnId}
+                columnId={item.columnId}
 				        title={item.columnName}
 				        subtitle={item.columnLocation}
 				        avatar={{uri:''}}
@@ -57,20 +58,21 @@ export default class ColumnGallery extends Component {
 
   showModal(column) {  	
 	  this.setState({
-	  	'selectedColumn': column,
-	  	'modalVisible':true,
+	  	selectedColumn: column,
+      selectedColumnId:column.columnId,
+	  	modalVisible:true,
 	  })
   }
 
   closeModal = () => {
   	this.setState({
-  		'modalVisible':false,
+  		modalVisible:false,
   	})
   }
 
   editColumnInfo(column) {  	
   	this.setState({
-  		'modalVisible':false,
+  		modalVisible:false,
   	})
   	column.wasCreated = true
 	  this.props.navigation.push('NewColumn', column)
@@ -78,6 +80,18 @@ export default class ColumnGallery extends Component {
   
   newColumn = () => {  	
 	  this.props.navigation.push('NewColumn')
+  }
+
+  deleteColumn (column) {
+    Database.delete_column(column)
+    const id_to_delete = this.state.selectedColumnId
+    const list = this.state.renderList.filter(function(item){
+        return item.key.toString() !== id_to_delete.toString()
+    })
+    this.setState({
+      modalVisible: false,
+      renderList: list,
+    })
   }
 
 	getColumns = async () => {
@@ -124,6 +138,7 @@ export default class ColumnGallery extends Component {
 										  icon={{name: 'create'}}
 										  title='Modificar información de columna' 
 										  onPress={() => {this.editColumnInfo(this.state.selectedColumn)}}
+                      disabled={true}
 										/>
 									</View>
 									<View style={{alignItems: 'center',justifyContent: 'center', padding: 30}}>
@@ -131,7 +146,7 @@ export default class ColumnGallery extends Component {
 											raised
 										  icon={{name: 'clear'}}
 										  title='Eliminar columna' 
-										  onPress={this.closeModal}
+										  onPress={() => this.deleteColumn(this.state.selectedColumn)}
 										/>
 									</View>
 								</View>

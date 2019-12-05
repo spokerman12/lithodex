@@ -71,6 +71,7 @@ export default class ColumnScreen extends Component {
   	let array = this.state.layerList
   	let removed = array.shift()
   	this.setState({layerList: array})
+    this.saveLayerList(this.state.columnId, this.state.layerList)
   }
 
   setRealHeight = (text) => {

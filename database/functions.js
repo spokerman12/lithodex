@@ -45,7 +45,10 @@ export function new_column(new_column_data) {
 	    fossil: new_column_data.fossil,
 	    note: new_column_data.note,
 	    layerList: new_column_data.layerList,
+	    selectedItems: new_column_data.selectedItems,
   	}
+  	console.log('en api')
+  	console.log(new_column_data.selectedItems)
 
 	db.get('default')
 		.then(function(database){			
@@ -74,6 +77,7 @@ export async function get_columns(current_user_id='admin') {
 export async function update_column(column) {
 
 	const db = new PouchDB('lithodex')
+	const current_user_id = 'admin'
 	
 	db.get('default')
 		.then(function(database){			
@@ -95,6 +99,31 @@ export async function update_column(column) {
 
 		}).catch(function (error){
 			console.log(['Column update failed',error])
+		})
+}
+
+export async function delete_column(column) {
+
+	const db = new PouchDB('lithodex')
+	const current_user_id = 'admin'
+	
+	db.get('default')
+		.then(function(database){			
+			const index_current_user = database.users.findIndex(element => element._id === current_user_id);
+		 	const index_column_to_edit = database.users[index_current_user].columns
+		 		.findIndex(element => element.columnId === column.columnId);
+		 	console.log(index_column_to_edit)
+		 	console.log('FOUND')
+		 	if (index_column_to_edit > -1){
+		 		database.users[index_current_user].columns.splice(index_column_to_edit, 1)
+		 	}
+		 	return db.put(database)
+		 		.then(function(){
+		      console.log('Deleted column');
+		    });
+
+		}).catch(function (error){
+			console.log(['Column delete failed',error])
 		})
 }
 

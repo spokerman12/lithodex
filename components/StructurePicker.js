@@ -17,11 +17,31 @@ export default class StructurePicker extends React.Component {
   constructor(props){
     super(props)
     if (this.props.data){
-      this.state = {
-        ...this.props.data,
-        modalVisible: false,
-        image: this.props.data.structure_image,
-        grainDiameter: this.props.data.grainDiameter,
+      console.log(this.props.data)
+      console.log('aa')
+
+      if (this.props.data.grainDiameter){
+        this.state = {
+          ...this.props.data,
+          modalVisible: false,
+          image: this.props.data.structure_image,
+          grainDiameter: this.props.data.grainDiameter,
+          label:this.props.data.label,
+          structure_image: this.props.data.structure_image,
+          structure_id: this.props.data.structure_id,
+          structure_name: this.props.data.structure_name,
+        }
+      } else {
+        this.state = {
+          ...this.props.data,
+          modalVisible: false,
+          image: this.props.data.structure_image,
+          grainDiameter: 1,
+          label:this.props.data.label,
+          structure_image: this.props.data.structure_image,
+          structure_id: this.props.data.structure_id,
+          structure_name: this.props.data.structure_name,
+        }
       }
     } else {
       this.state = {
@@ -31,7 +51,7 @@ export default class StructurePicker extends React.Component {
         structure_id: null,
         structure_name: null,
         modalVisible: false,
-        grainDiameter: 0,
+        grainDiameter: 1,
       }
     }
   }
@@ -77,6 +97,7 @@ export default class StructurePicker extends React.Component {
   }
 
   acceptSelection = () => {
+    console.log('accepting')
     this.setState({
       image:this.state.structure_image,
       modalVisible: false,

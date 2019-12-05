@@ -23,27 +23,49 @@ class NewColumn extends Component {
 		this.onChangeName = this.onChangeName.bind(this)
 		this.onChangeLocation = this.onChangeLocation.bind(this)
 		this.acceptSettings = this.acceptSettings.bind(this)
+
+    if (this.props.navigation.getParam('columnName')){
+      this.state = {
+        editedGPS:true,
+        columnName: this.props.navigation.getParam('columnName'),
+        columnLocation: this.props.navigation.getParam('columnLocation'),
+        location: null,
+        longitude:this.props.navigation.getParam('longitude'),
+        latitude:this.props.navigation.getParam('latitude'),
+        errorMessage:null,
+        scale:this.props.navigation.getParam('scale'),
+        lithology: this.props.navigation.getParam('lithology'),
+        structure: this.props.navigation.getParam('structure'),
+        image: this.props.navigation.getParam('image'),
+        fossil: this.props.navigation.getParam('fossil'),
+        note: this.props.navigation.getParam('note'),
+        selectedItems:this.props.navigation.getParam('selectedItems'),
+      }
+      console.log('en const')
+      console.log(this.props.navigation.getParam('selectedItems'))
+    } else {
+      this.state = {
+        editedGPS:false,
+        columnName: '',
+        columnLocation: '',
+        location: null,
+        longitude:null,
+        latitude:null,
+        errorMessage:null,
+        scale:0.1,
+        lithology: true,
+        structure: false,
+        image: false,
+        fossil: false,
+        note: false,
+        selectedItems:null,
+      }
+    }
+
   }
 
   componentDidMount(){
     const log_entry = Log.new_column()
-  }
-
-   
-  state = {
-    editedGPS:false,
-  	columnName: '',
-  	columnLocation: '',
-  	location: null,
-    longitude:null,
-    latitude:null,
-  	errorMessage:null,
-  	scale:0.1,
-    lithology: true,
-    structure: false,
-    image: false,
-    fossil: false,
-    note: false,
   }
 
   componentWillMount() {
@@ -61,11 +83,13 @@ class NewColumn extends Component {
     
     longitude = JSON.stringify(location.coords.longitude) 
     latitude = JSON.stringify(location.coords.latitude)
-    this.setState({ location });
-    this.setState({
-      longitude:longitude,
-      latitude:latitude,
-    })
+    if (!this.props.navigation.getParam('latitude')){
+      this.setState({ location });
+      this.setState({
+        longitude:longitude,
+        latitude:latitude,
+      })
+    }
   };
 
   onChangeName = (text) => {
@@ -105,7 +129,9 @@ class NewColumn extends Component {
       image:false,
       fossil:false,
       note:false,
+      selectedItems:selectedItems,
     })
+    console.log(selectedItems)
 
     var arrayLength = selectedItems.length;
     for (var i = 0; i < arrayLength; i++) {
@@ -146,37 +172,44 @@ class NewColumn extends Component {
 	    image: this.state.image,
 	    fossil: this.state.fossil,
 	    note: this.state.note,
+      selectedItems:this.state.selectedItems,
 
       layerList:[],
   	}
 
     // Se crea la nueva columna en la base de datos
-    if (this.state.wasCreated){
-      // var updated_column = this.state.columnFromDB
-      
-      // actualiza info de columna en DB
-      // Database.update_column(payload)
+    if (this.props.navigation.getParam('columnName')){
+      console.log('trying to edit')
+      Database.update_column(payload)
 
     } else {
       Database.new_column(payload)
-
     }
-
   	this.props.navigation.goBack()
   }
 
 
   render() {
+    console.log('en render')
+    console.log(this.props.navigation.getParam('latitude'))
 
-    let latitude = 'Obteniendo..';
-    let longitude = 'Obteniendo..';
-    if (this.state.errorMessage && !this.state.editedGPS) {
-      latitude = 'No se pudo obtener la ubicación';
-      longitude = 'No se pudo obtener la ubicación';
-    } else if (this.state.location && !this.state.editedGPS) {
-      longitude = JSON.stringify(this.state.location.coords.longitude) 
-      latitude = JSON.stringify(this.state.location.coords.latitude)
-    }
+    let latitude = this.state.latitude
+    let longitude = this.state.longitude
+    if (this.state.latitude){
+      let latitude = this.state.latitude
+      let longitude = this.state.longitude
+    } else {
+      let latitude = 'Obteniendo..';
+      let longitude = 'Obteniendo..';
+
+      if (this.state.errorMessage && !this.state.editedGPS) {
+        latitude = 'No se pudo obtener la ubicación';
+        longitude = 'No se pudo obtener la ubicación';
+      } else if (this.state.location && !this.state.editedGPS) {
+        longitude = JSON.stringify(this.state.location.coords.longitude) 
+        latitude = JSON.stringify(this.state.location.coords.latitude)
+      }
+    } 
 
     let checkboxElements = [
 	    { itemKey:1, itemDescription:'Estructura'},
@@ -192,6 +225,8 @@ class NewColumn extends Component {
         	<View style={styles.row}>
         		<Text style={{flex:1}}>Nombre de la columna: </Text>
         		<TextInput 
+              defaultValue={this.state.columnName}
+              selectTextOnFocus={true}
         			style={styles.textInput}
         			onChangeText={text => this.onChangeName(text)}
         		/>
@@ -199,6 +234,8 @@ class NewColumn extends Component {
         	<View style={styles.row}>
         		<Text style={{flex:1}}>Ubicación: </Text>
         		<TextInput 
+              defaultValue={this.state.columnLocation}
+              selectTextOnFocus={true}
         			style={styles.textInput}
         			onChangeText={text => this.onChangeLocation(text)}
         		/>
@@ -206,8 +243,9 @@ class NewColumn extends Component {
         	<View style={styles.row}>
         		<Text style={{flex:1}}>Latitud: </Text>
         		<TextInput 
-              style={styles.textInput} 
               defaultValue={latitude} 
+              selectTextOnFocus={true}
+              style={styles.textInput} 
               onChangeText={text => this.onChangeLatitude(text)}
               keyboardType='numeric'
             />
@@ -215,8 +253,9 @@ class NewColumn extends Component {
         	<View style={styles.row}>
         		<Text style={{flex:1}}>Longitud: </Text>
             <TextInput 
-              style={styles.textInput} 
               defaultValue={longitude} 
+              selectTextOnFocus={true}
+              style={styles.textInput} 
               onChangeText={text => this.onChangeLongitude(text)}
               keyboardType='numeric'
             />
@@ -243,6 +282,7 @@ class NewColumn extends Component {
 	        		style={{flex:1, height: 15, width:250}}
 			        headerComponent={<Text style={{fontSize:25}}>Tipos de registro</Text>}
 			        OnConfirm={(selectedItems) => this.handleConfirm(selectedItems)}
+              checkedItems={this.state.selectedItems}
 			        ConfirmButtonTitle='OK'
 			        DescriptionField='itemDescription'
 			        KeyField='itemKey'

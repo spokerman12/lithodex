@@ -18,19 +18,22 @@ export default class LithologyPicker extends React.Component {
 
   constructor(props){
     super(props)
-
     if (this.props.data){
-      console.log(this.props)
-      this.state = {
-        ...this.props.data,
-        modalVisible: false,
-        image: this.props.data.pattern_image,
+      if (this.props.data.color) {
+        this.state = {
+          ...this.props.data,
+          modalVisible: false,
+          image: this.props.data.pattern_image,
+        }
+      } else {
+        this.state = {
+          ...this.props.data,
+          modalVisible: false,
+          image: this.props.data.pattern_image,
+          color:toHsv('green'),
+        }
       }
-      console.log(this.state)
-      console.log('shoulda')
     } else {
-      console.log(props)
-      console.log('woulda')
       this.state = {
         image:null,
         label:null,
@@ -123,12 +126,17 @@ export default class LithologyPicker extends React.Component {
     this.setState({ color })
   }
 
-    // PASAR A CMYK
-  toRGB = (hex) => {
-    let red = parseInt(hex.substring(1,2),16)
-    let green = parseInt(hex.substring(3,4),16)
-    let blue = parseInt(hex.substring(5,6),16)
-    return ("R: "+red.toString()+", G: "+green.toString()+", B: "+blue.toString())
+  toCMYK = (hex) => {
+    let red = parseInt(hex.substring(1,2),16)/255
+    let green = parseInt(hex.substring(3,4),16)/255
+    let blue = parseInt(hex.substring(5,6),16)/255
+    let K = 1 - Math.max(red,green,blue)
+
+    let C = parseInt((1-red-K)/(1-K)*100)
+    let M = parseInt((1- green - K)/(1-K)*100)
+    let Y = parseInt((1-blue-K)/(1-K)*100)
+
+    return ("C: "+C.toString()+", M: "+M.toString()+", Y: "+Y.toString()+", K: "+parseInt(K*100).toString())
   }
 
   setFilter = (text) => {
@@ -137,8 +145,6 @@ export default class LithologyPicker extends React.Component {
 
 
   render() {
-
-    let { image } = this.state;
 
     return (
         <View>
@@ -168,7 +174,7 @@ export default class LithologyPicker extends React.Component {
                 <Text>Litología: {this.state.label}</Text>
               </View>
               <View style={styles.smallrow}>
-                <Text>Color:  {this.toRGB(fromHsv(this.state.color))}</Text>
+                <Text>Color:  {this.toCMYK(fromHsv(this.state.color))}</Text>
               </View>
               <View style={styles.smallrow}>
                 <Button title="Aceptar" onPress={this.acceptSelection}/>
@@ -179,10 +185,10 @@ export default class LithologyPicker extends React.Component {
 
   	      <TouchableHighlight onPress={()=>{this.setModalVisible(true);}} style={{width:150, height: this.props.height}}>
   	        <View style={styles.row}>
-  	          {!image && <Text>(Toque para cambiar la litología)</Text>}
-  	          {image && 
+  	          {!this.state.image && <Text>(Toque para cambiar la litología)</Text>}
+  	          {this.state.image && 
                 <View style={{backgroundColor:fromHsv(this.state.color)}}>
-                  <Image source={image} 
+                  <Image source={this.state.image} 
                     style={{width:150, height: this.props.height, opacity: 0.5, borderColor: 'black', borderWidth: 1.5}}
                   />
                 </View>

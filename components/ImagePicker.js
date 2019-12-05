@@ -4,12 +4,25 @@ import { Text, Button, Image, View,
 import * as ExpoImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
+import * as Database from '../database/functions'
+
 export default class ImagePicker extends React.Component {
 
-  state = {
-    image: null,
-    modalVisible: false,
+  constructor(props){
+    super(props)
+    if (this.props.data){
+      this.state = {
+        image: this.props.data.image,
+        modalVisible: false,
+      }
+    } else {
+      this.state = {
+        image: null,
+        modalVisible: false,
+      }
+    }
   }
+
 
   setModalVisible (isVisible) {
     this.setState({modalVisible: isVisible});
@@ -21,21 +34,32 @@ export default class ImagePicker extends React.Component {
     const { cancelled, uri } = await ExpoImagePicker.launchImageLibraryAsync({ aspect: [1,this.props.height/150], allowsEditing: true});
     if(!cancelled) {
       this.setState({ image: uri, modalVisible: false });
+
+      Database.saveComponentState(this.state, this.props.columnId, this.props.layerKey, this.props.componentKey)
+
+      console.log(this.state)
+      console.log([this.props.columnId, this.props.layerKey, this.props.componentKey])
+      console.log('UPDATE THIS')
     }
   
   }
 
   takePicture = async () => {
     await Permissions.askAsync(Permissions.CAMERA);
+    console.log('Camera?')
     const { cancelled, uri } = await ExpoImagePicker.launchCameraAsync({ allowsEditing: true});
     if(!cancelled || uri) {
       this.setState({ image: uri, modalVisible: false});
+
+      Database.saveComponentState(this.state, this.props.columnId, this.props.layerKey, this.props.componentKey)
+
+      console.log(this.state)
+      console.log([this.props.columnId, this.props.layerKey, this.props.componentKey])
+      console.log('UPDATE THIS')
     }
   }
 
   render() {
-
-    let { image } = this.state;
 
     return (
         <View>
@@ -59,8 +83,8 @@ export default class ImagePicker extends React.Component {
 
       <TouchableHighlight onPress={()=>{this.setModalVisible(true);}} style={{width:150, height: this.props.height}}>
         <View style={styles.modal}>
-          {!image && <Text>(Toque para añadir una foto)</Text>}
-          {image && <Image source={{ uri: image }} style={{width:150, height: this.props.height, borderColor: 'black', borderWidth: 1.5}}/>}
+          {!this.state.image && <Text>(Toque para añadir una foto)</Text>}
+          {this.state.image && <Image source={{ uri: this.state.image }} style={{width:150, height: this.props.height, borderColor: 'black', borderWidth: 1.5}}/>}
         </View>
       </TouchableHighlight>
         </View>

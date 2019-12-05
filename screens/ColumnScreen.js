@@ -139,9 +139,6 @@ export default class ColumnScreen extends Component {
 						<View style={{flex:0.5, padding:10, width:90}}>
 							<Button title="-" onPress={this.removeLayer} color='red'/>
 						</View>
-						<View style={{flex:0.5, padding:10, width:90}}>
-							<Button title="Guardar" onPress={() => {this.saveLayerList(this.state.columnId,this.state.layerList)}}/>
-						</View>
 					</View>
 
 				<View style={styles.container}>

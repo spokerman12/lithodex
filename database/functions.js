@@ -166,8 +166,8 @@ export async function saveComponentState(state, columnId, layerKey, componentKey
 			const index_current_user = database.users.findIndex(element => element._id === current_user_id);
 		 	const index_column_to_edit = database.users[index_current_user].columns
 		 		.findIndex(element => element.columnId === columnId);
-		 	console.log(index_column_to_edit)
-		 	console.log('Index Column')
+		 	console.log(state)
+		 	console.log('Editing..')
 		 	if (index_column_to_edit > -1){
 		 		const index_layer = database.users[index_current_user].columns[index_column_to_edit].layerList
 		 			.findIndex(element => element.key === layerKey);
@@ -185,11 +185,8 @@ export async function saveComponentState(state, columnId, layerKey, componentKey
 		 	}
 		 	return db.put(database)
 		 		.then(function(){
-		      return db.get('default')
-		    }).then(function (updated_db) {
-		      console.log('Component saved in layer:');
-		      console.log(updated_db)
-		    });
+		      console.log('Component saved');
+		  	});
 
 
 		}).catch(function (error){

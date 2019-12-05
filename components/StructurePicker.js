@@ -7,21 +7,33 @@ import { Avatar, ListItem } from "react-native-elements";
 
 import { STRUCTURES } from '../constants/structures'
 
+import * as Database from '../database/functions'
+
 const sortedStructures = STRUCTURES.sort((a, b) => (a.name > b.name) ? 1 : -1)
 
 
 export default class StructurePicker extends React.Component {
 
-  state = {
-    image:null,
-    label:null,
-    structure_image: null,
-    structure_id: null,
-    structure_name: null,
-    modalVisible: false,
-    grainDiameter: 0,
-    grainLabel: null,
-
+  constructor(props){
+    super(props)
+    if (this.props.data){
+      this.state = {
+        ...this.props.data,
+        modalVisible: false,
+        image: this.props.data.structure_image,
+        grainDiameter: this.props.data.grainDiameter,
+      }
+    } else {
+      this.state = {
+        image:null,
+        label:null,
+        structure_image: null,
+        structure_id: null,
+        structure_name: null,
+        modalVisible: false,
+        grainDiameter: 0,
+      }
+    }
   }
 
   renderItems () {
@@ -66,16 +78,15 @@ export default class StructurePicker extends React.Component {
 
   acceptSelection = () => {
     this.setState({
-      image:this.state.structure_image
-    })
-    this.setModalVisible(false)
-  }
+      image:this.state.structure_image,
+      modalVisible: false,
+      })
 
-  setGrainDiameter = (value) => {
-    this.setState({
-      grainDiameter: 150,
-      grainLabel: null,
-    })
+    Database.saveComponentState(this.state, this.props.columnId, this.props.layerKey, this.props.componentKey)
+
+    console.log(this.state)
+    console.log([this.props.columnId, this.props.layerKey, this.props.componentKey])
+    console.log('UPDATE THIS')
   }
 
   render() {
@@ -99,7 +110,7 @@ export default class StructurePicker extends React.Component {
               <View style={styles.smallrow}>
                 <Text>Diámetro del grano:</Text>
                 <Picker
-                  selectedValue={this.state.grainLabel}
+                  selectedValue={this.state.grainDiameter}
                   style={{height: 130, width: 200}}
                   onValueChange={(itemValue, itemIndex) =>
                     this.setState({grainDiameter: itemValue})

@@ -7,19 +7,31 @@ import { Avatar, ListItem } from "react-native-elements";
 
 import { FOSSILS } from '../constants/fossils'
 
+import * as Database from '../database/functions'
+
 const sortedFossils = FOSSILS.sort((a, b) => (a.name > b.name) ? 1 : -1)
 
 
-export default class Fossilicker extends React.Component {
+export default class FossilPicker extends React.Component {
 
-  state = {
-    image:null,
-    label:null,
-    fossil_image: null,
-    fossil_id: null,
-    fossil_name: null,
-    modalVisible: false,
-
+  constructor(props){
+    super(props)
+    if (this.props.data){
+      this.state = {
+        ...this.props.data,
+        modalVisible: false,
+        image: this.props.data.fossil_image,
+      }
+    } else {
+      this.state = {
+        image:null,
+        label:null,
+        fossil_image: null,
+        fossil_id: null,
+        fossil_name: null,
+        modalVisible: false,
+      }
+    }
   }
 
   renderItems () {
@@ -64,9 +76,15 @@ export default class Fossilicker extends React.Component {
 
   acceptSelection = () => {
     this.setState({
-      image:this.state.fossil_image
+      image:this.state.fossil_image,
+      modalVisible: false,
     })
-    this.setModalVisible(false)
+
+    Database.saveComponentState(this.state, this.props.columnId, this.props.layerKey, this.props.componentKey)
+
+    console.log(this.state)
+    console.log([this.props.columnId, this.props.layerKey, this.props.componentKey])
+    console.log('UPDATE THIS')
   }
 
 

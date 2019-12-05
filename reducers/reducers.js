@@ -1,20 +1,7 @@
 const initialState = {
-	id_count : 0,
-	column_list: [{
-			id : 0,
-			column : {
-			  	columnName: '',
-			  	columnLocation: '',
-			  	location: null,
-			  	errorMessage:null,
-			  	scale:0.1,
-			    lithology: true,
-			    structure: false,
-			    image: false,
-			    fossil: false,
-			    note: false,
-			}
-	}]
+  current_user:'admin',
+	columns: [],
+  loading:true,
 }
 
 export default function reducer(state = initialState, action) {
@@ -32,7 +19,6 @@ export default function reducer(state = initialState, action) {
       return {
         count: state.count + 1
       };
-
     default:
       return state;
   }

@@ -166,28 +166,29 @@ export async function saveComponentState(state, columnId, layerKey, componentKey
 			const index_current_user = database.users.findIndex(element => element._id === current_user_id);
 		 	const index_column_to_edit = database.users[index_current_user].columns
 		 		.findIndex(element => element.columnId === columnId);
-
+		 	console.log(index_column_to_edit)
+		 	console.log('Index Column')
 		 	if (index_column_to_edit > -1){
 		 		const index_layer = database.users[index_current_user].columns[index_column_to_edit].layerList
 		 			.findIndex(element => element.key === layerKey);
-		 			if (componentKey.includes('lithology')){
-		 				console.log('FOUND')
-		 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].lithology_data = state
-		 			} else if (componentKey.includes('structure')){
-		 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].structure_data = state
-		 			} else if (componentKey.includes('fossil')){
-		 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].fossil_data = state
-		 			} else if (componentKey.includes('image')){
-		 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].image_data = state
-		 			} else if (componentKey.includes('note')){
-		 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].note_data = state
-		 			}
+	 			if (componentKey.includes('lithology')){
+	 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].lithology_data = state
+	 			} else if (componentKey.includes('structure')){
+	 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].structure_data = state
+	 			} else if (componentKey.includes('fossil')){
+	 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].fossil_data = state
+	 			} else if (componentKey.includes('image')){
+	 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].image_data = state
+	 			} else if (componentKey.includes('note')){
+	 				database.users[index_current_user].columns[index_column_to_edit].layerList[index_layer].note_data = state
+	 			}
 		 	}
 		 	return db.put(database)
 		 		.then(function(){
-		      return db.get('default');
-		    }).then(function (doc) {
-		      console.log('Component saved');
+		      return db.get('default')
+		    }).then(function (updated_db) {
+		      console.log('Component saved in layer:');
+		      console.log(updated_db)
 		    });
 
 

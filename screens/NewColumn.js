@@ -31,6 +31,7 @@ class NewColumn extends Component {
 
    
   state = {
+    editedGPS:false,
   	columnName: '',
   	columnLocation: '',
   	location: null,
@@ -81,6 +82,10 @@ class NewColumn extends Component {
     } else {
       this.setState({longitude: '0'})
     }
+
+    this.setState({
+      editedGPS:true,
+    })
   }
 
   onChangeLatitude = (text) => {
@@ -89,6 +94,9 @@ class NewColumn extends Component {
     } else {
       this.setState({latitude: '0'})
     }
+    this.setState({
+      editedGPS:true,
+    })
   }
 
   handleConfirm = (selectedItems) => {
@@ -162,10 +170,10 @@ class NewColumn extends Component {
 
     let latitude = 'Obteniendo..';
     let longitude = 'Obteniendo..';
-    if (this.state.errorMessage) {
+    if (this.state.errorMessage && !this.state.editedGPS) {
       latitude = 'No se pudo obtener la ubicación';
       longitude = 'No se pudo obtener la ubicación';
-    } else if (this.state.location) {
+    } else if (this.state.location && !this.state.editedGPS) {
       longitude = JSON.stringify(this.state.location.coords.longitude) 
       latitude = JSON.stringify(this.state.location.coords.latitude)
     }

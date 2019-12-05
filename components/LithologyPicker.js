@@ -19,11 +19,17 @@ export default class LithologyPicker extends React.Component {
   constructor(props){
     super(props)
 
-    // if (this.props.data){
-    //   console.log(this.props.data)
-    //   console.log('shoulda')
-    //   this.state = this.props.data
-    // } else {
+    if (this.props.data){
+      console.log(this.props)
+      this.state = {
+        ...this.props.data,
+        modalVisible: false,
+        image: this.props.data.pattern_image,
+      }
+      console.log(this.state)
+      console.log('shoulda')
+    } else {
+      console.log(props)
       console.log('woulda')
       this.state = {
         image:null,
@@ -35,7 +41,7 @@ export default class LithologyPicker extends React.Component {
         modalVisible: false,
         filter_name:null,
       }  
-    // }
+    }
   }
 
   renderItems(filter_name) {
@@ -102,9 +108,15 @@ export default class LithologyPicker extends React.Component {
 
   acceptSelection = () => {
     this.setState({
-      image:this.state.pattern_image
+      image:this.state.pattern_image,
+      modalVisible: false,
     })
-    this.setModalVisible(false)
+
+    Database.saveComponentState(this.state, this.props.columnId, this.props.layerKey, this.props.componentKey)
+
+    console.log(this.state)
+    console.log([this.props.columnId, this.props.layerKey, this.props.componentKey])
+    console.log('UPDATE THIS')
   }
 
   onColorChange = (color) => {

@@ -8,13 +8,10 @@ import { NavigationEvents } from 'react-navigation'
 import * as Log from '../log/functions'
 
 
-
 export default class MainMenu extends Component {
 
-	render (){
-
+	render(){
 		console.log('Running on '+Platform.OS+' '+Platform.Version)
-
 		if ((Platform.Version <= 14) && Platform.OS=='android') {
 			return(
 				<View style={styles.menu}>
@@ -22,11 +19,9 @@ export default class MainMenu extends Component {
 				</View>
 			)
 		}
-
 		// <NavigationEvents onDidFocus={payload => Log.open_main_menu()}/>
 		return(
-			<View style={styles.menu}>
-				
+			<View style={styles.menu}>		
 				<Image 
 					style={{width: 100, height: 100, marginTop:40}}
 					source={require('../assets/icon.png')}

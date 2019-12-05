@@ -79,19 +79,8 @@ export default class ColumnScreen extends Component {
   	this.setState({realHeight: mult.toFixed(2)})
   }
 
+  // esto solo deberia pasar en las hojas
   saveLayerList = (columnId,layerList) =>{
-  	// var i;
-  	// console.log(layerList)
-  	// console.log(this.refs)
-  	// if (this.state.lithology){ 
-  	// 		for (i = 0; i < layerList.length; i++) {
-  	// 			layerList[i].lithology_data = this.refs[layerList[i].key+'_lithology'].state;
-  	// 			layerList[i].structure_data = this.refs[layerList[i].key+'_structure'].state;
-  	// 			layerList[i].fossil_data = this.refs[layerList[i].key+'_fossil'].state;
-  	// 			layerList[i].image_data = this.refs[layerList[i].key+'_image'].state;
-  	// 			layerList[i].note_data = this.refs[layerList[i].key+'_note'].state;
-  	// 		} 
-  	// }
   	Database.saveLayerList(columnId, layerList)
   }
 
@@ -99,15 +88,15 @@ export default class ColumnScreen extends Component {
   	return this.state.layerList.map((item) => (
     	<View style={styles.container_row} key={item.key+'_row'}>
     		{this.state.lithology && 
-    			<LithologyPicker ref={item.key+'_lithology'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_lithology'} key={item.key+'_lithology'} layer={item.key} data={item.lithology_data}/>}
+    			<LithologyPicker ref={item.key+'_lithology'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_lithology'} key={item.key+'_lithology'} layerKey={item.key} data={item.lithology_data}/>}
     		{this.state.structure &&
-    		 <StructurePicker ref={item.key+'_structure'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_structure'} key={item.key+'_structure'} layer={item.key} data={item.structure_data}/>}
+    		 <StructurePicker ref={item.key+'_structure'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_structure'} key={item.key+'_structure'} layerKey={item.key} data={item.structure_data}/>}
     		{this.state.fossil &&
-    		 <FossilPicker ref={item.key+'_fossil'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_fossil'} key={item.key+'_fossil'} layer={item.key} data={item.fossil_data}/>}
+    		 <FossilPicker ref={item.key+'_fossil'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_fossil'} key={item.key+'_fossil'} layerKey={item.key} data={item.fossil_data}/>}
     		{this.state.image &&
-    		 <ImagePicker ref={item.key+'_image'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_image'} key={item.key+'_image'} layer={item.key} data={item.image_data}/>}
+    		 <ImagePicker ref={item.key+'_image'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_image'} key={item.key+'_image'} layerKey={item.key} data={item.image_data}/>}
     		{this.state.note &&
-    		 <NotePicker ref={item.key+'_note'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_note'} key={item.key+'_note'} layer={item.key} data={item.note_data}/>}
+    		 <NotePicker ref={item.key+'_note'} height={item.height} columnId={this.state.columnId} componentKey={item.key+'_note'} key={item.key+'_note'} layerKey={item.key} data={item.note_data}/>}
 			</View>
     ))
   }

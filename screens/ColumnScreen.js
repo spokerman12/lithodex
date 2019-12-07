@@ -23,27 +23,53 @@ export default class ColumnScreen extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-    	columnName : this.props.navigation.getParam('columnName'),
-	  	columnId : this.props.navigation.getParam('columnId'),
-	  	columnLocation: this.props.navigation.getParam('columnLocation'),
-	  	longitude: this.props.navigation.getParam('longitude'),
-	  	latitude: this.props.navigation.getParam('latitude'),
-	  	scale: this.props.navigation.getParam('scale'),
-	    lithology: this.props.navigation.getParam('lithology'),
-	    structure: this.props.navigation.getParam('structure'),
-	    image: this.props.navigation.getParam('image'),
-	    fossil: this.props.navigation.getParam('fossil'),
-	    note: this.props.navigation.getParam('note'),
+    if (this.props.navigation.getParam('layerList')){
+      
+      this.state = {
+        columnName : this.props.navigation.getParam('columnName'),
+        columnId : this.props.navigation.getParam('columnId'),
+        columnLocation: this.props.navigation.getParam('columnLocation'),
+        longitude: this.props.navigation.getParam('longitude'),
+        latitude: this.props.navigation.getParam('latitude'),
+        scale: this.props.navigation.getParam('scale'),
+        lithology: this.props.navigation.getParam('lithology'),
+        structure: this.props.navigation.getParam('structure'),
+        image: this.props.navigation.getParam('image'),
+        fossil: this.props.navigation.getParam('fossil'),
+        note: this.props.navigation.getParam('note'),
 
 
-	    layerList : this.props.navigation.getParam('layerList'),
+        layerList : this.props.navigation.getParam('layerList'),
 
-	    modalVisible: false,
+        modalVisible: false,
 
-	    realHeight:0,
-	    tempHeight:0,	
+        realHeight:0,
+        tempHeight:0, 
+      } 
+    } else {
+      this.state = {
+        columnName : this.props.navigation.getParam('columnName'),
+        columnId : this.props.navigation.getParam('columnId'),
+        columnLocation: this.props.navigation.getParam('columnLocation'),
+        longitude: this.props.navigation.getParam('longitude'),
+        latitude: this.props.navigation.getParam('latitude'),
+        scale: this.props.navigation.getParam('scale'),
+        lithology: this.props.navigation.getParam('lithology'),
+        structure: this.props.navigation.getParam('structure'),
+        image: this.props.navigation.getParam('image'),
+        fossil: this.props.navigation.getParam('fossil'),
+        note: this.props.navigation.getParam('note'),
+
+
+        layerList : [],
+
+        modalVisible: false,
+
+        realHeight:0,
+        tempHeight:0, 
+      }
     }
+
   }
 
 

@@ -49,7 +49,17 @@ export default class ColumnGallery extends Component {
 				    ))
 					})
 				}
-			})
+			}).catch(e => {
+			  	console.log('No database found. Creating dummy...')
+			    this.setState({
+			    	loading:false,
+			    	columnList: [],
+					renderList: [],
+					modalVisible:false,
+					selectedColumn:null,
+			    })
+			    Database.dummy_database()
+  			})
 	}
 
 	editColumn(column) {  	
